@@ -1,0 +1,37 @@
+﻿#stil1
+{
+min-height: 700px;
+border-bottom: :#f3f3f3;
+background-color: #f3f3f3;
+}
+#stil2
+{    
+    border-right: #d3d3d3 solid dashed;     
+}
+#stil3
+{
+   min-height: 100px; 
+   font-size: 36px;
+}
+#stil4
+{
+  border-top: #626262 solid dashed;
+}
+
+#urunler
+{
+  border-left: #626262 solid dashed;
+}
+
+#rows
+{           
+height: 35px;
+}
+#sonuc
+{
+ height: 75px;
+margin: 4px;
+font-size: 30px;
+border-radius: 8px;
+}
+    
