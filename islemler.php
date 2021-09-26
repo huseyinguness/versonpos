@@ -1,8 +1,8 @@
 <?php 
 session_start();
-include ("fonksiyonlar/fonksiyon.php");
+include ("fonksiyon/fonksiyon.php");
 require_once 'baglan.php';
-$masam = new verson;
+$masam = new sistem;
 @$masaid=$_GET["masaid"] ;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -14,8 +14,8 @@ $masam = new verson;
     <!--<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>--> 
     <link rel="stylesheet" href="dosya/boost.css">
     <link rel="stylesheet" href="dosya/stil.css">
-
-    <script >
+<!-- Jawa Script-->
+ <script >
     $(document).ready(function()
     {
     $('#btnhesap').click(function()  
@@ -57,7 +57,7 @@ $masam = new verson;
     }
 
     </script>
-<title>Verson Pos Restorant sistemleri </title>
+<title>sistem Pos Restorant sistemleri </title>
 </head>
 <body>
 <?php
@@ -71,13 +71,12 @@ $masam = new verson;
         if ($tercih==1):
         return $c=$b->get_result();
         endif;      
-    }
-   
+    }   
 // uyarı mesajı
     function uyari($mesaj,$renk)
     {
          echo '<div class="alert alert-'.$renk.' mt-4 text-center">'.$mesaj.'</div>';
-    }
+    }    
 // işlem     
     @$islem=$_GET["islem"];
     switch ($islem) :
@@ -288,7 +287,7 @@ $masam = new verson;
     endwhile;
 
     break;
-// kontrol
+// Garson kontrol
     case "kontrol":
 
     $ad=htmlspecialchars($_POST["ad"]);
@@ -296,7 +295,7 @@ $masam = new verson;
 
     if (@$ad!="" && @$sifre!=""):
 
-        $var=benimsorgum2($db,"select * from garson where ad='$ad', and sifre='$sifre',1");
+        $var=benimsorgum2($db,"select * from garson where ad='$ad' and sifre='$sifre',1");
 
         if ($var->num_rows==0):
             echo '<div class="alert alert-danger text-center"> Bilgiler uyuşmuyor </div>';
@@ -318,13 +317,11 @@ $masam = new verson;
     endif;
 
     break;
-
+// Garson Çıkış
     case "cikis":
     benimsorgum2($db,"update garson set durum=0",1);
     header("location:index.php");
-
     break;
-
 endswitch;
 ?>
 </body>

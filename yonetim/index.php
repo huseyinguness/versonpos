@@ -1,6 +1,6 @@
 <?php 
-require_once 'yonetim_fonksiyon/yonfonksiyon.php';
-require_once 'yonetim_fonksiyon/baglan.php';
+require_once 'fonk/yonfok.php';
+require_once 'fonk/baglan.php';
 $class= new yonetim;
 $class->cookcont($vt,true);
 ?>

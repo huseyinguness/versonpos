@@ -1,6 +1,7 @@
-<?php require_once 'yonetim_fonksiyon/yonfonksiyon.php';
+<?php require_once 'fonk/yonfok.php';
 $yonetimclass= new yonetim;
 $yonetimclass->cookcont($vt,false);
+
  ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -9,7 +10,10 @@ $yonetimclass->cookcont($vt,false);
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	
 <script src="../Dosya/jquer.js"></script>
+
 <link rel="stylesheet" href="../Dosya/boost.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity=
+    "sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <title>Verson Pos Restorant Kontrol </title>
 <style>
 	body
@@ -45,6 +49,24 @@ $yonetimclass->cookcont($vt,false);
 
 		popupWindow=window.open(url,winName,settings)
 	}
+
+	$(document).ready(function() {
+
+
+		$('a[data-confirm]').click(function(ev) {
+
+		var href=$(this).attr('href');
+
+		if (!$('#dataConfirmModal').length){
+			$('body').append('<div class="modal fade" id="dataConfirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"><div class="modal-dialog modal-dialog-centered" role="document"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="exampleModalLongTitle">ONAY</h5></div><div class="modal-body"></div>   <div class="modal-footer"><button class="btn" data-dismiss="modal" aria-hidden="true">VAZGEÇ</button><a class="btn btn-primary" id="dataConfirmOK">SİL</a></div></div></div></div></div>');
+			
+			$('#dataConfirmModal').find('.modal-body').text($(this).attr('data-confirm'));
+			$('#dataConfirmOK').attr('href',href);
+			$('#dataConfirmModal').modal({show:true});
+			return false;
+			}
+		})
+	});
 </script>
 
 
@@ -54,11 +76,13 @@ $yonetimclass->cookcont($vt,false);
 		<div class="row row-fluid">
 			<div class="col-md-2 border-right bg-primary" style="min-height: 500px;">
 
+
 			<div class="row">
-				<div class="col-md-12 bg-light p-4 mx-auto text-center font-weight-bold">
-					<h4>Hoşgeldin : <?php echo $yonetimclass->kulad($vt); ?> </h4>
+				<div class="col-md-12 bg-dark p-4 mx-auto text-center text-white font-weight-bold">
+					<h4><?php echo $yonetimclass->kulad($vt); ?> </h4>
 				</div>
 </div> 
+
 <!-- MENÜLER -->	
 			<div class="row">
 				<div class="col-md-12 bg-light p-2 pl-3 border-bottom border-top text-white">
@@ -81,7 +105,7 @@ $yonetimclass->cookcont($vt,false);
 					<a href="control.php?islem=raporyon&tar=bugun" id="lk"> Raporlar </a>
 				</div> 			
 				<div class="col-md-12 bg-light p-2 pl-3 border-bottom text-white">
-					<a href="control.php?islem=sifredegis" id="lk"> Şifre Değiştir </a>
+					<a href="control.php?islem=sifredegis&kulad=<?php echo $yonetimclass->kulad($vt); ?>" id="lk"> Şifre Değiştir </a>
 				</div> 
 			 
 			
@@ -91,11 +115,15 @@ $yonetimclass->cookcont($vt,false);
 <!--MENÜ ALTI TABLO	-->	
  <table class="table text-center table-light table-bordered mt-2 table-striped">
 					<thead>					
-						<tr class="table-warning">
+						<tr class="table-danger">
 							<th scope="col" colspan="4"> ANLIK DURUM</th>
 						</tr>					
 					</thead>
 						<tbody>
+							<tr>
+								<th scope="col" colspan="3"> T.Garson :</th>
+								<th scope="col" colspan="1" class="text-danger"> <?php $yonetimclass->toplamgarson($vt); ?></th>
+							</tr>
 							<tr>
 								<th scope="col" colspan="3"> T.Sipariş :</th>
 								<th scope="col" colspan="1" class="text-danger"> <?php $yonetimclass->topurunadet($vt); ?></th>
