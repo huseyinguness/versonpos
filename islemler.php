@@ -39,7 +39,7 @@ function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue,$Bolum
 						 <input type="hidden" name="mevcutmasaid" value="'.$masaid.'" />
 						 <select name="hedefmasa" class="form-control">'; 
 						 					
-						$masadeg=benimsorum2($db,"select * from masalar where durum=$durum and kategori=$BolumTercih",1); 						
+						$masadeg=benimsorum2($db,"select * from masalar where durum=$durum and rezervedurum=0 and kategori=$BolumTercih",1); 						
 						while ($son = $masadeg->fetch_assoc()):						
 						if ($masaid!=$son["id"]) :
 						echo '<option value="'.$son["id"].'">'.$son["ad"].'</option>';
@@ -123,13 +123,12 @@ function iskontogetir($masaid) {
 	<form id="iskontoForm"> 					 
 						 <input type="hidden" name="masaid" value="'.$masaid.'" />						 
 						 <select name="iskontoOran" class="form-control">						 
-						 <option value="5">5</option>
-						 <option value="10">10</option>
-						 <option value="15">15</option>
-						 <option value="20">20</option>
-						 <option value="25">25</option>						 
-						 </select> <input type="button" id="iskontobtn" value="UYGULA"  class="btn btn-success btn-block mt-2" /> </form></div></div>';	
-	
+						 <option value="2,5">5</option>
+						 <option value="5">10</option>
+						 <option value="7,5">15</option>
+						 <option value="10">20</option>
+						 <option value="12,5">25</option>						 
+						 </select> <input type="button" id="iskontobtn" value="UYGULA"  class="btn btn-success btn-block mt-2" /> </form></div></div>';
   }
 function parcagetir($masaid) {
 	
@@ -152,7 +151,7 @@ case "iskontoUygula":
 			while($don=$verilericek->fetch_assoc()):
 		  	$urunid=$don["urunid"];
 			$urunhesap=($don["urunfiyat"] / 100) * $iskontoOran; // 0.50
-			$sonfiyat=$don["urunfiyat"]-$urunhesap;     // 4.50			
+			$sonfiyat=$don["urunfiyat"]-$urunhesap;             // 4.50			
 			benimsorum2($db,"update anliksiparis set urunfiyat=$sonfiyat where urunid=$urunid",1); 		
 			endwhile;
 			break;
@@ -206,15 +205,15 @@ case "hesap":
 			$masaid=htmlspecialchars($_POST["masaid"]);
 			$odemesecenek=htmlspecialchars($_POST["odemesecenek"]);
 			
-			$verilericek=benimsorum2($db,"select * from anliksiparis where masaid=$masaid",1);
+			$verilericek1=benimsorum2($db,"select * from anliksiparis where masaid=$masaid",1);
 			
-			while($don=$verilericek->fetch_assoc()):
-			$a=$don["masaid"];
-			$b=$don["urunid"];
-			$c=$don["urunad"];
-			$d=$don["urunfiyat"];
-			$e=$don["adet"];
-			$garsonid=$don["garsonid"];			
+			while($don1=$verilericek1->fetch_assoc()):
+			$a=$don1["masaid"];
+			$b=$don1["urunid"];
+			$c=$don1["urunad"];
+			$d=$don1["urunfiyat"];
+			$e=$don1["adet"];
+			$garsonid=$don1["garsonid"];			
 			$bugun = date("Y-m-d");
 			
 			$raporekle="insert into rapor (masaid,garsonid,urunid,urunad,urunfiyat,adet,odemesecenek,tarih) VALUES($a,$garsonid,$b,'$c',$d,$e,'$odemesecenek','$bugun')";
@@ -247,14 +246,14 @@ case "hesap":
 			$silme1=$db->prepare("update mutfaksiparis set durum=1 where urunid=$b and masaid=$a");
 			$silme1->execute();
 			
-				    /* MASANIN DURUMUNU GÜNCELLEYECEĞİM*/				 
-				    $ekleson2=$db->prepare("update masalar set durum=0 where id=$masaid");
-				    $ekleson2->execute();
-				     
-				      /* MASANIN LOG KAYDI*/	    	 
-				    $ekleson23=$db->prepare("update masalar set saat=0, dakika=0 where id=$masaid");
-				    $ekleson23->execute();				 
-				     /* MASANIN LOG KAYDI*/
+			 /* MASANIN DURUMUNU GÜNCELLEYECEĞİM*/				 
+			 $ekleson2=$db->prepare("update masalar set durum=0 where id=$masaid");
+			 $ekleson2->execute();
+			  
+			   /* MASANIN LOG KAYDI*/	    	 
+			 $ekleson23=$db->prepare("update masalar set saat=0, dakika=0 where id=$masaid");
+			 $ekleson23->execute();				 
+			  /* MASANIN LOG KAYDI*/
 				
 				
 		
@@ -338,12 +337,13 @@ case "goster":
 							$odenenTutar=$masaninBakiyesi["tutar"];
 							$kalanTutar=$sontutar-$odenenTutar;	
 
-								echo '<p class="text-danger m-0 p-0"><del id="Toplamtut">'.number_format($sontutar,2,'.',','). " </del> | 													
+								echo '<p class="text-danger m-0 p-0">
+								<del id="Toplamtut">'.number_format($sontutar,2,'.',','). " </del> | 													
 							<font class='text-success'>" . number_format($odenenTutar,2,'.',',')."</font>
-							<font class='text-dark'><br>Ödenecek : ". number_format($kalanTutar,2,'.',',')."</font></p>" ;						
-							
+							<font class='text-dark'><br>Ödenecek : ". number_format($kalanTutar,2,'.',',')."</font></p>" ;	
 							else:							
-							echo '<p class="text-danger m-0 p-0"><b id="Toplamtut">' .number_format($sontutar,2,'.',','). "</b> ₺ </p>";		
+							echo '<p class="text-danger m-0 p-0">
+							<b id="Toplamtut">' .number_format($sontutar,2,'.',','). "</b> ₺ </p>";		
 							endif;
 						 echo'</td>	
 				   		 <tr class="font-weight-bold">

@@ -2,13 +2,16 @@
 ob_start();
 
 class yonetim {
+protected $tablolar=array("gecicimasa","geciciurun","geciciodeme");
+protected $select=array(
+        "1"=> "SALON",
+        "2"=> "BAHÇE",
+        "3"=> "BALKON",
+        "4"=> "TERAS"
+     );
 // uyarı sorgusu $aktar
-
     protected $aktar1,$aktar2,$veri1,$veri2,$veri3;
-
-     protected $tablolar=array("gecicimasa","geciciurun","geciciodeme");
-
-     private function uyari ($tip,$metin,$sayfa)
+  private function uyari ($tip,$metin,$sayfa)
      {
         echo '<div class="alert alert-'.$tip.'">'.$metin.'</div>';
         header('refresh:1,url='.$sayfa.'');
@@ -168,16 +171,72 @@ class yonetim {
        $oran=    ($veriler["dolu"] / $toplam) * 100 ;
        echo $oran=substr($oran, 0,5). " %";    
     }
+// Bölüm Adı Geliyor
+   function BolumBilgiVer($tercih)  {
+
+    switch ($tercih) :
+    
+
+    case "1":
+        echo '<td><input type="text" name="masaad" value="SALON" class="form-control m-1 text-info bg-dark"></td>';
+        break;
+    case "2":
+     echo '<td><input type="text" name="masaad" value="BAHÇE" class="form-control m-1 text-white bg-dark"></td>';
+        break;
+    case "3":
+     echo '<td><input type="text" name="masaad" value="BALKON" class="form-control m-1 text-success bg-dark"></td>';
+        break;
+    case "4":
+     echo '<td><input type="text" name="masaad" value="TERAS" class="form-control m-1 text-warning bg-dark"></td>';
+        break;
+    endswitch;
+   } 
 // masa yönetimi
     function masayon ($db)
     {
+    if ($_POST):           
+        @$kategori=htmlspecialchars($_POST["kategori"]);
+        $so=$this->genelsorgu($db,"select * from masalar where kategori=$kategori");
+    else :
         $so=$this->genelsorgu($db,"select * from masalar");
+    endif;
 
        echo ' <div class="col-md-12 text-left mr-auto mt-2" style="background-color: #5555 ;"> <h3> || Masa Yönetimi <a href="control.php?islem=masaekle" title=""> <input name="buton" type="submit" class="btn btn-success" value=" + Yeni Masa"></a></h3> </div>
-       <table class="table text-center table-striped table-bordered mx-auto col-md-9 mt-4">
+
+       <table class="table text-center table-striped table-bordered mx-auto col-md-9 mt-4 table-dark">
+              <thead>';
+              //    <tr>
+//      <th> 
+
+                   //   <form action="control.php?islem=masayon" method="post">
+                   //   <input type="search" name="urun" class="form-control" placeholder="Aranacak Kelimeyi Yazın"/></th>
+                   //   <th> <input type="submit" name="aramabuton" value="Ara" class="btn btn-success"/>
+                   //   </form>
+                  //    </th>
+                     echo' <th> 
+                      <form action="control.php?islem=masayon" method="post">
+                      <select name="kategori" class="form-control">
+                            <option value="1"> SALON</option>
+                            <option value="2"> BAHÇE</option>
+                            <option value="3"> BALKON</option>
+                            <option value="4"> TERAS</option>
+
+                            
+                        </select>
+                        </th>
+                      <th> <input type="submit" name="arama" value="Getir" class="btn btn-success">  
+                      </form>
+                      </th> 
+                   </tr>                   
+                </thead>              
+               </table>';
+
+
+      echo' <table class="table text-center table-striped table-bordered mx-auto col-md-9 mt-4">
                     <thead>
                         <th scope="col"> Masa No </th>
                         <th scope="col"> Masa Adı </th>
+                         <th scope="col"> Bölüm Adı </th>
                         <th scope="col"> Güncelle</th>
                         <th scope="col"> Sil </th>
                     </thead><tbody>';             
@@ -186,8 +245,10 @@ class yonetim {
 
         echo '<tr>
                  <td>'.$sonuc["id"].'</td>
-                 <td><input type="text" name="masaad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>
-                 <td><a href="control.php?islem=masaguncelle&masaid='.$sonuc["id"].'" class="btn btn-warning">Güncelle</a></td>
+                 <td><input type="text" name="masaad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>';
+                 $this->BolumBilgiVer($sonuc["kategori"]);
+
+                echo ' <td><a href="control.php?islem=masaguncel&masaid='.$sonuc["id"].'" class="btn btn-warning">Güncelle</a></td>
                  <td><a href="control.php?islem=masasil&masaid='.$sonuc["id"].'" class="btn btn-danger" data-confirm="Silmek istediğinizden Eminmisiniz ?">Sil</a></td>
             </tr>';
 
@@ -201,9 +262,9 @@ class yonetim {
         if ($masaid!="" && is_numeric($masaid)) :
 
             @$this->genelsorgu($db,"DELETE FROM masalar WHERE id=$masaid");
-            @$this->uyari("success","Masa Başarı İle Silindi","control.php?islem=masayonetimi");
+            @$this->uyari("success","Masa Başarı İle Silindi","control.php?islem=masayon");
         else:
-            @$this->uyari("danger","Masa silinmedi hata oluştu !!","control.php?islem=masayonetimi");
+            @$this->uyari("danger","Masa silinmedi hata oluştu !!","control.php?islem=masayon");
         endif;
     }
 // masa Güncelle
@@ -221,26 +282,43 @@ class yonetim {
         if ($buton) :
 
              @$masaad=htmlspecialchars($_POST["masaad"]);
+              @$kategori=htmlspecialchars($_POST["kategori"]);
              @$masaid=htmlspecialchars($_POST["masaid"]);
 
              if ($masaad=="" && $masaid=="") :
-                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=masayonetimi");
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=masayon");
 
             else :
 
-                $this->genelsorgu($db,"update masalar set ad='$masaad' where id=$masaid");
-                @$this->uyari("success","Masa Güncellendi!!","control.php?islem=masayonetimi");  
+                $this->genelsorgu($db,"update masalar set ad='$masaad',kategori='$kategori' where id=$masaid");
+                @$this->uyari("success","Masa Güncellendi!!","control.php?islem=masayon");  
             endif;          
             
          else:
 
         $masaid=$_GET["masaid"];
 
-        $aktar=$this->genelsorgu($db,"select * from masalar where id=$masaid")->fetch_assoc();  
+        $aktar=$this->genelsorgu($db,"select * from masalar where id=$masaid")->fetch_assoc(); 
+
+        
 
             echo '<form action="" method="post">
                         <div class="col-md-12 table-light"> <h4> Masa Güncelle</h4></div>
-                        <div class="col-md-12 table-light"><input type="text" name="masaad" value="'.$aktar["ad"].'" class="form-control m-2"></div>
+                        <div class="col-md-12 table-light">
+                        <input type="text" name="masaad" value="'.$aktar["ad"].'" class="form-control m-2"></div>
+                        
+                        <div class="col-md-12 table-light class="form-control m-2" >
+                        <select name="kategori" class="form-control m-2">';
+
+                        foreach ($this->select as $key => $value):
+                            if ($key==$aktar["kategori"]):
+                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                        else :
+                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                         endif;
+                             endforeach;                                                  
+                        echo '</select>
+                </div>
                         <div class="col-md-12 table-light"><input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
                         <input type="hidden" name="masaid" value="'.$aktar["id"].'">
                     </form>';
@@ -256,20 +334,33 @@ class yonetim {
         echo '<div class="col-md-3 text-center mx-auto mt-5 table-bordered">';
         if ($buton) :
              @$masaad=htmlspecialchars($_POST["masaad"]);
+             @$kategori=htmlspecialchars($_POST["kategori"]);
              if ($masaad=="") :
                 @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=masayonetimi");
             else :
-                @$this->genelsorgu($db,"insert into masalar (ad) values ('$masaad')");
-                @$this->uyari("success","Masa Eklendi !!","control.php?islem=masayonetimi");  
+                @$this->genelsorgu($db,"insert into masalar (ad,kategori) values ('$masaad','$kategori')");
+                @$this->uyari("success","Masa Eklendi !!","control.php?islem=masayon");  
             endif;            
          else:
             ?>
 
-            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-                <?php 
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post"> 
+                <?php  
                     echo '
                         <div class="col-md-12 table-light"> <h4> Masa Ekle</h4></div>
-                        <div class="col-md-12 table-light"><input type="text" name="masaad" class="form-control m-2"></div>
+                        <div class="col-md-12 table-light">
+                        <input type="text" name="masaad" class="form-control m-2"></div>
+                        <div class="col-md-12 table-light class="form-control m-2">
+
+                        <select name="kategori" class="form-control m-2">
+                            <option value="1" selected="selected"> SALON</option>
+                            <option value="2"> BAHÇE</option>
+                            <option value="3"> BALKON</option>
+                            <option value="4"> TERAS</option>
+
+                            
+                        </select>
+                </div>
                         <div class="col-md-12 table-light"><input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
                 </form>';
          endif; 
@@ -1608,7 +1699,8 @@ class yonetim {
          header("Location:control.php");
         endif;
     }
-function bakimcielaman($db,$tabload)
+// Bakımcı elaman
+  function bakimcielaman($db,$tabload)
     {
     $db->query('CHECK TABLE'.$tabload);     
      $db->query("ANALYZE TABLE".$tabload);    
@@ -1660,6 +1752,5 @@ function bakimcielaman($db,$tabload)
 
      
      }
-
-}  
+ }  
 ?>
