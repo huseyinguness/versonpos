@@ -1,9 +1,0 @@
-﻿Merhaba,
-
-Tasarıma sahip olabilmek için seninde bu seviyeye kadar gelmiş olman gerekmekte, bu tasarım "YÖNETİM PANELİ KODLARI-Garson Personel bölümünün yapılması 4" dersinden hemen sonra yapılmıştır ve seninde yazmış olduğum bu derse kadar benimle gelmiş olman gerekmektedir. Çünkü bu sefer sadece tasarım kodlarını değil sistemin fonksiyon dosyalarıda dahil olmak üzere paket halinde vereceğim. O sebeple kötüye kullanımı engellemek adına, bu aşamaya kadar gelmiş olan kişiler bana tüm dosyalarını göndermeli ve bu aşamaya kadar geldiklerini kanıtlamalılar. Bu kanıtlamanın amacı daha 150. videoda olan kişinin direkt tasarımı ve tüm kodları almasını engellemektir. Kodlarını kanıtlayan kişiler, zaten gerçekten öğrenme arzusu olan ve benimle buraya kadar gelebilen kişiler olacağı için o kişilerin kodları almasında hiç bir mahsur yoktur. Burada sadece tasarımsal iyileştirmenin yanı sıra, fonksiyonlarda ve dosyalarda revize ve iyileştirmeler yaptım. Aklına şöyle bir soru gelmesin ee biz görmedik o iyileştirmeleri bilgi kaçırdık vs. Tabi ki bu aktarılması gereken bilgiler statüsünde olmayan işlemlerdir, yani video harici hiç bir bilgi kaçmadı. Sadece yazım düzeltmeleri fazla ve gereksiz olan satırların eritilmesidir. Tasarım ile birlikte aslında sistemin tamamen sorunsuz haline de sahip olacaksın.
-
-Eğitimin ortalarında veya başlarında olan kişiler içinde bu bir hedeftir. Onları ilerlerde bu tasarım bekliyor olacaktır. 
-
-EĞİTİMİMİZİ BÜYÜTMEYE VE GELİŞTİRMEYE DEVAM EDECEĞİZ. DAHA BİR ÇOK GÜNCELLEME VE İYİLEŞTİRME PLANLAMALARIM MEVCUTTUR.
-
-İyi dersler dilerim.
