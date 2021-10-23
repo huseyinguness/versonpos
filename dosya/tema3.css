@@ -1,0 +1,288 @@
+﻿html,body 
+{
+  height: 100%;
+ background-color:#FAFAFA;
+}
+.genelCervece
+{	
+	border:1px solid #055193;
+	border-radius:5px;	
+	/*background: -webkit-linear-gradient(left, #282525 0%, #1c090c 100%);
+    background: linear-gradient(to right, #1c090c 0%, #282525 100%);*/
+    background: -webkit-linear-gradient(left, #055e91 0%, #055193 100%);
+    background: linear-gradient(to right, #055193 0%, #055e91 100%);		
+}
+.ovalb 
+{
+	border-radius:0px 10px 10px 0px;
+	overflow:hidden;
+	text-align:center;
+	background-color:#FFF;
+	color:#47a323;	
+}
+.ovald
+{	
+	border-radius:0px 10px 10px 0px;
+	overflow:hidden;
+	text-align:center;
+	background-color:#FFF;
+	color:#f22340;	
+}
+.ovalr 
+{	
+	border-radius:0px 10px 10px 0px;
+	overflow:hidden;
+	text-align:center;
+	background-color:#FFF;
+	color:#000;	
+}
+#lin:link, #lin:visited 
+{
+	text-decoration:none;
+	color:#FFF;	
+}
+#lin:hover 
+{
+text-decoration:none;	
+color:#FFF;
+}
+
+.sipsayi 
+{	
+	border-radius:5px;
+	color:#000;
+	font-size:20px;	
+	background-color:#FAFAFA;
+	margin-right:15px;	
+}
+#anadiv 
+{
+	min-height:100px;
+}
+.masaad 
+{
+	font-size:24px;
+	text-align:center;
+	color:#fff;	
+}
+/* sağ taraf kodları */
+
+.sagiskelet
+{		
+    background: -webkit-linear-gradient(left, #ffff 0%, #f5f5f5 100%);
+    background: linear-gradient(to right, #fff 0%, #fff 100%);	
+}
+.masasagarkaplan
+{
+	background-color:#055193;
+}
+.basliklar 
+{
+	background-color:#09d3e5;
+	color:#e01111;	
+	text-align:left;
+	border-bottom:1px solid #fff;	
+}
+.istatistikbasliklar 
+{
+	font-size: 15px; 
+	min-height: 40px;
+	background-color:#09d3e5;
+	color:#e01111;	
+	text-align:left;
+	border-bottom:1px solid #fff;	
+}
+.istatistiksagcizgi 
+{	
+	border-right:1px solid #fff;	
+}
+
+.anasayfaTablo 
+{
+    border-spacing: 0;
+	border:none;
+}
+.anasayfaTablo tbody 
+{
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#bekleyenler 
+{
+	max-height:160px;	
+}
+#rezervelistesi 
+{
+	max-height:160px;	
+}
+
+#rezerveformalan 
+{
+    position:absolute; 
+    bottom:200px; 
+    right:0; 
+    width:250px; 
+    max-height:800px; 
+    overflow-y:auto; 
+    overflow-x:hidden; 
+    margin-right:25px;
+	border-radius:5px 0px 0px 5px;	
+	background: -webkit-linear-gradient(left, #2b2c3d 0%, #47515b 100%);
+    background: linear-gradient(to right, #47515b 0%, #2b2c3d 100%);
+
+}
+
+
+
+/*  İSLEMLER PHP KODLARI*/
+
+
+#a1 {
+min-height:80px;	
+}
+#a2
+{
+margin-top:20px; margin-left:15px;	
+background-color:#43796c;
+color:#fff;
+}
+#masaad 
+{
+min-height:80px; font-size:40px;	
+color:#fff;
+}
+#sonuc 
+{
+ min-height:650px;
+}
+table 
+{
+    border-spacing: 0;
+}
+tbody, thead tr { display: block; }
+tbody 
+{
+    height: 500px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+tbody td, thead th 
+{
+    width: 170px;
+}
+thead th:last-child 
+{
+    width: 140px; /* 140px + 16px scrollbar width */
+}
+/* MASA DETAY KODLARI */
+
+.masadetaysagcizgi 
+{
+	
+}
+.anasayfabuton 
+{
+color:#fff;	
+margin-top:20px; margin-left:15px;		
+border:1px solid #055e91;
+}
+.anasayfabuton:hover 
+{
+color:#055e91;
+}
+.hesapAlbuton 
+{
+color:#055e91;	
+font-weight:bold; height:40px;
+border:1px solid #FFF;
+}
+.hesapAlbuton:hover 
+{
+	background-color:#055e91;
+color:#FFF;
+}
+.hesapAlbuton2 
+{
+color:#055e91;	
+font-weight:bold; height:40px;
+border:1px solid #055e91;
+background-color:transparent;
+}
+.hesapAlbuton2:hover 
+{
+color:#055e91;	
+}
+.islembutonlar 
+{
+color:#055e91;	
+font-weight:bold; height:40px;
+border:1px solid #055e91;
+background-color:#055e91;
+height:40px;
+}
+.adetbuton 
+{
+background-color:#282525;  
+color:#055e91;	
+min-height: 40px;
+min-width: 40px;
+font-size:15px;
+}
+.eklebuton 
+{
+font-size:50px; 
+padding-top:0px; 
+height:80px; 
+min-width:100px;  
+color:#055e91; 
+background-color:#282525;
+}
+.kategoributon 
+{
+background-color:#282525; 
+height:40px; 
+min-width:100px; 
+color:#055e91;
+}
+[type='radio']
+{
+display:none;	
+}
+.urunbuton 
+{
+margin:1px;
+background-color:#fff;
+height:75px; 
+min-width:80px; 
+color:#0f0472;"
+}
+.girisiskelet
+{
+	background-color:#c4c4c4;
+}
+.girisButon
+{
+background-color:#0f0472; 
+height:80px; 
+min-width:90px; 
+color:#055e91;
+}
+.diger
+{
+	height:40px;
+}
+.urunlab
+{
+
+}
+.urunidlab
+{
+
+}
+.girisbuton
+{
+	min-height: 40px;
+	min-width: 80px;
+}
+
