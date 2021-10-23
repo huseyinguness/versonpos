@@ -23,7 +23,7 @@ function benimsorum2($vt,$sorgu,$tercih) {
 					endif;	
 			}			
 // case64 şifreleme   
-   function sifrele($veri)
+function sifrele($veri)
    {
     return base64_encode(gzdeflate(gzcompress(serialize($veri))));
 
@@ -38,20 +38,20 @@ private function uyari ($tip,$metin,$sayfa)
         echo '<div class="alert alert-'.$tip.'">'.$metin.'</div>';
         header('refresh:0,url='.$sayfa.'');
     }
-function doluluk($dv) {
+function doluluk($db) {
 			
-			$son=$this->benimsorum($dv,"select * from doluluk",1);
+			$son=$this->benimsorum($db,"select * from doluluk",1);
 			$veriler=$son->fetch_assoc();			
 			$toplam = $veriler["bos"] + $veriler["dolu"];			
 		 	$oran =  ($veriler["dolu"] / $toplam) * 100 ;		
 			echo $oran=substr($oran,0,4). " %";			
 			
 		}		
-function masatoplam($dv) {
-				echo $this->benimsorum($dv,"select * from masalar",1)->num_rows;						
+function masatoplam($db) {
+				echo $this->benimsorum($db,"select * from masalar",1)->num_rows;						
 		} // masa toplam sayı
-function siparistoplam($dv) {
-				echo $this->benimsorum($dv,"select * from anliksiparis",1)->num_rows;						
+function siparistoplam($db) {
+				echo $this->benimsorum($db,"select * from anliksiparis",1)->num_rows;						
 		} // masa toplam sayı		
 // MASA DETAY FONKSİYON
 function masagetir ($vt,$id)
@@ -83,57 +83,52 @@ function garsonbak($db) {
 		echo "Kimse Yok";			
 		endif;
 	}
-function BolumTercihGetir($dv) {
-
+function BolumTercihGetir($db) {
 	       $oturumTipi =$_COOKIE["oturumTipi"];
-	        $id=$this->coz($_COOKIE["oturumid"]);       
-
-        
-	        $sor=$dv->prepare("SELECT * FROM $oturumTipi WHERE id=$id");
+	        $id=$this->coz($_COOKIE["oturumid"]);         
+	        $sor=$db->prepare("SELECT * FROM $oturumTipi WHERE id=$id");
 	        $sor->execute();
 	        $sonbilgi=$sor->get_result();
-	        $veri=$sonbilgi->fetch_assoc();
-	        
+	        $veri=$sonbilgi->fetch_assoc();	        
 	        // ilgili bölüm adı geliyor
-
 	       return $veri["AktifBolum"];
-}	
+  }	
 function BolumAdGetir($deger)
 	{
 		switch ($deger):
 			case 1:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>İç Bölüm</h3> </div>';
+			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>SALON</h3> </div>';
 			break;
 			case 2:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>Bahçe</h3> </div>';
+			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>BAHÇE</h3> </div>';
 			break;
 			case 3:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>Balkon</h3> </div>';
+			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>BALKON</h3> </div>';
 			break;
 			case 4:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>Teras</h3> </div>';
+			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>TERAS</h3> </div>';
 			break;
 
 
 		endswitch;
 
 	}
-function vipTemaMasalar($dv) 
+function vipTemaMasalar($db) 
            {	      	        
 	        // ilgili bölüm adı geliyor
-	        $this->BolumAdGetir($this->BolumTercihGetir($dv));
-			$sonuc=$this->benimsorum($dv,"select * from masalar where kategori=".$this->BolumTercihGetir($dv),1);
+	        $this->BolumAdGetir($this->BolumTercihGetir($db));
+			$sonuc=$this->benimsorum($db,"select * from masalar where kategori=".$this->BolumTercihGetir($db),1);
 					$bos=0;
 					$dolu=0;				
 					while ($masason=$sonuc->fetch_assoc()) :					
 					$siparisler='select * from anliksiparis where masaid='.$masason["id"].'';
-					$satir=$this->benimsorum($dv,$siparisler,1)->num_rows;					
+					$satir=$this->benimsorum($db,$siparisler,1)->num_rows;					
 					if ($satir==0):	
 					$icon='ovalb';
 					else:
 					$icon='ovald';
 					endif;	
-					$this->benimsorum($dv,$siparisler,1)->num_rows==0 ? $bos++ : $dolu++ ;
+					$this->benimsorum($db,$siparisler,1)->num_rows==0 ? $bos++ : $dolu++ ;
 					if ($masason["rezervedurum"]==0) :
 					echo '<div class="col-lg-2 col-md-3 col-sm-12">  
 					<a href="masadetay.php?masaid='.$masason["id"].'" id="lin"> 
@@ -181,7 +176,7 @@ function vipTemaMasalar($dv)
 		endif;		
 					endwhile;
 					$dol="update doluluk set bos=$bos, dolu=$dolu where id=1";
-					$dolson=$dv->prepare($dol);
+					$dolson=$db->prepare($dol);
 					$dolson->execute();
 	}	 
 // masalar

@@ -141,19 +141,19 @@ $(document).ready(function() {
 
                                  <div class="col-md-3 mx-auto text-center">
                                  	<label class="btn m-1 btn-block diger r1" id="girisButon">
-                                 		<input name="bolum" type="radio" value="1"/>İç bölüm</label></div>                               
+                                 		<input name="bolum" type="radio" value="1"/>SALON</label></div>                               
                             
                             <div class="col-md-3 mx-auto text-center">
                             	<label class="btn m-1 btn-block diger r2" id="girisButon">
-                            		<input name="bolum" type="radio" value="2"/>Bahçe</label></div>  
+                            		<input name="bolum" type="radio" value="2"/>BAHÇE</label></div>  
 
                             <div class="col-md-3 mx-auto text-center">
                             	<label class="btn m-1 btn-block diger r3" id="girisButon">
-                            		<input name="bolum" type="radio" value="3"/>Balkon</label></div>
+                            		<input name="bolum" type="radio" value="3"/>BALKON</label></div>
 
                                  <div class="col-md-3 mx-auto text-center">
                                  	<label class="btn m-1 btn-block diger r4" id="girisButon">
-                                 		<input name="bolum" type="radio" value="4" />Teras</label></div>                           	
+                                 		<input name="bolum" type="radio" value="4" />TERAS</label></div>                           	
                             
                          <div class="col-md-6 p-4"><label class="btn m-1 btn-block diger r5" id="girisButon">
                          	<input name="bolum" type="radio" value="5"/>KASİYER</label> </div>

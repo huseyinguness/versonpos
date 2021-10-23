@@ -223,7 +223,7 @@ $("#rezerveformalan").hide();
         		 <div class="col-md-12 text-white"><select name="masaid" class="form-control mt-2">
                   <option value="0">Masa Seç</option>
                   <?php				  
-				  $b=$tema3->benimsorum2($db,"select * from masalar where durum=0 and rezervedurum=0",1);				  
+				  $b=$tema3->benimsorum2($db,"select * from masalar where durum=0 and rezervedurum=0 and kategori=".$tema3->BolumTercihGetir($db),1);				  
 				  while ($masalar=$b->fetch_assoc()) :				  
 				  echo '<option value="'.$masalar["id"].'">'.$masalar["ad"].'</option>';				  
 				  endwhile;				  
@@ -237,7 +237,7 @@ $("#rezerveformalan").hide();
                  <div class="col-md-12 font-weight-bold p-1 text-white">Saat </div>         
                   <div class="col-md-12">
                 	<select name="rezervesaat" class="form-control mt-2">
-                  <option value="0">Saat Seçin</option>
+                  <option value="0">Saat Seç</option>
                   <option value="00:00">00:00</option>    
                   <option value="01:00">01:00</option>
                   <option value="01:00">01:00</option>

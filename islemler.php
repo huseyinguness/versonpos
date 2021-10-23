@@ -1,5 +1,6 @@
 <?php ob_start(); session_start(); 
-	include("fonksiyon/tema3fonk.php"); 
+	include("fonksiyon/tema3fonk.php");
+	$tema3= new vipTema;
 	@$masaid=$_GET["masaid"];
  	 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -27,7 +28,7 @@ function benimsorum2($vt,$sorgu,$tercih) {
 function uyarimesaj($mesaj,$renk) {	
 	echo '<div class="alert alert-'.$renk.' mt-4 text-center">'.$mesaj.'</div>';	
 	}
-function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue) {
+function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue,$BolumTercih) {
 	
 	
 	echo '<div class="card border-secondary m-3 mx-auto" style="max-width:18rem;">
@@ -38,7 +39,7 @@ function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue) {
 						 <input type="hidden" name="mevcutmasaid" value="'.$masaid.'" />
 						 <select name="hedefmasa" class="form-control">'; 
 						 					
-						$masadeg=benimsorum2($db,"select * from masalar where durum=$durum",1); 						
+						$masadeg=benimsorum2($db,"select * from masalar where durum=$durum and kategori=$BolumTercih",1); 						
 						while ($son = $masadeg->fetch_assoc()):						
 						if ($masaid!=$son["id"]) :
 						echo '<option value="'.$son["id"].'">'.$son["ad"].'</option>';
@@ -645,14 +646,14 @@ case "butonlar":
 										 		<i class="fas fa-exchange-alt mt-1 float-left">DEĞİŞTİR</i></a> </div>
 												
 	 <div class="col-md-12" id="degistirform">'; formgetir($masaid,$db,"<b class='text-secondary'>DEĞİŞTİR</b><span id='kapatma'>
-	 	<a class='text-danger float-right'  sectionId='degistir'><b>X</b></a></span>",0,"DEĞİŞTİR","degistirbtn","degistirformveri"); echo'</div>
+	 	<a class='text-danger float-right'  sectionId='degistir'><b>X</b></a></span>",0,"DEĞİŞTİR","degistirbtn","degistirformveri",$tema3->BolumTercihGetir($db)); echo'</div>
 												
 												 <div class="col-md-12" id="islemlinkleri">
 												 <a  class="btn btn-dark text-white btn-block mt-1" style="height:40px;" sectionId="birlestir">
 												 <i class="fas fa-stream mt-1 float-left">BİRLEŞTİR</i></a>  </div>
 												 
 	 <div class="col-md-12" id="birlestirform">'; formgetir($masaid,$db,"<b class='text-secondary'>BİRLEŞTİR</b><span id='kapatma'>
-	 	<a class='text-danger float-right' sectionId='birlestir'><b>X</b></a></span>",1,"BİRLEŞTİR","birlestirbtn","birlestirformveri"); echo'</div>
+	 	<a class='text-danger float-right' sectionId='birlestir'><b>X</b></a></span>",1,"BİRLEŞTİR","birlestirbtn","birlestirformveri",$tema3->BolumTercihGetir($db)); echo'</div>
 												 
 										 </div>										 
 								 </div>
