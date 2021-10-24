@@ -3,7 +3,7 @@
 include("fonksiyon/tema3fonk.php"); 
 $tema3 = new vipTema;
 $tema3->cookcon($db,false);
-$veri=$tema3->benimsorum2($db,"select * from garson where durum=1",1)->num_rows;
+$veri=$tema3->genelsorgu2($db,"select * from garson where durum=1",1)->num_rows;
 if ($veri==0) :
 header("Location:index.php");
 endif;
