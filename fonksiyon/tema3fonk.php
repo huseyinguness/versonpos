@@ -1,8 +1,7 @@
 <?php
 require_once 'baglan.php';
 ob_start();
-class vipTema
-{
+class vipTema {
 private function genelsorgu($vt,$sorgu,$tercih) {
 				
 					$a=$sorgu;

@@ -2,25 +2,16 @@
 ob_start();
 
 class yonetim {
-protected $select=array();
-protected $renk=array();
-function __construct (){
- 
-        $vt = new mysqli("localhost","root","","versonpos") or die ("Bağlanamadı");
-        $vt->set_charset("utf8");
-
-        $so =$this->genelsorgu($vt,"select * from bolumler");
-        while ($sonuc=$so->fetch_assoc()):
-            $this->select[$sonuc["id"]]=$sonuc["ad"];
-        endwhile;
-
-        $so2 =$this->genelsorgu($vt,"select * from bolumler");
-        while ($sonuc2=$so2->fetch_assoc()):
-            $this->renk[$sonuc2["id"]]=$sonuc2["renk"];
-        endwhile;
-    }
 // uyarı sorgusu $aktar
 protected $aktar1,$aktar2,$veri1,$veri2,$veri3;
+protected $renk=array(
+    "danger" =>"danger",
+    "info" =>"info",
+    "warning" =>"warning",
+    "dark" =>"dark",
+    "success" =>"success",
+    "secondary" =>"secondary"
+    );
 private function uyari ($tip,$metin,$sayfa)
      {
         echo '<div class="alert alert-'.$tip.'">'.$metin.'</div>';
@@ -33,8 +24,7 @@ private function uyari ($tip,$metin,$sayfa)
         $sorgum->execute();
         return $sorguson=$sorgum->get_result(); 
      } 
-
-     function ciktiicinsorgu($db,$sorgu)
+function ciktiicinsorgu($db,$sorgu)
      {
         $sorgum=$db->prepare($sorgu);
         $sorgum->execute();
@@ -182,24 +172,11 @@ private function uyari ($tip,$metin,$sayfa)
        echo $oran=substr($oran, 0,5). " %";    
     }
 // Bölüm Adı Geliyor
-   function BolumBilgiVer($tercih)  {
+   function BolumBilgiVer($vt,$tercih)  {
 
-    switch ($tercih) :
-    
-
-    case "1":
-        echo '<td><input type="text" name="masaad" value="SALON" class="form-control m-1 text-info bg-dark"></td>';
-        break;
-    case "2":
-     echo '<td><input type="text" name="masaad" value="BAHÇE" class="form-control m-1 text-white bg-dark"></td>';
-        break;
-    case "3":
-     echo '<td><input type="text" name="masaad" value="BALKON" class="form-control m-1 text-success bg-dark"></td>';
-        break;
-    case "4":
-     echo '<td><input type="text" name="masaad" value="TERAS" class="form-control m-1 text-warning bg-dark"></td>';
-        break;
-    endswitch;
+   $so=$this->genelsorgu($vt,"select * from bolumler where id=".$tercih);
+   $sonuc=$so->fetch_assoc();
+   echo'<td><input type="text" name="masaad" value="'.$sonuc["ad"].'" class="form-control m-1 bg-'.$sonuc["renk"].'"></td>';
    } 
 
 // masa yönetimi
@@ -208,6 +185,7 @@ private function uyari ($tip,$metin,$sayfa)
     if ($_POST):           
         @$kategori=htmlspecialchars($_POST["kategori"]);
         $so=$this->genelsorgu($db,"select * from masalar where kategori=$kategori");
+         
     else :
         $so=$this->genelsorgu($db,"select * from masalar");
     endif;
@@ -216,9 +194,8 @@ private function uyari ($tip,$metin,$sayfa)
 
        <table class="table text-center table-striped table-bordered mx-auto col-md-9 mt-4 table-dark">
               <thead>';
-              //    <tr>
-  //      <th> 
-
+                   //   <tr>
+                   //   <th> 
                    //   <form action="control.php?islem=masayon" method="post">
                    //   <input type="search" name="urun" class="form-control" placeholder="Aranacak Kelimeyi Yazın"/></th>
                    //   <th> <input type="submit" name="aramabuton" value="Ara" class="btn btn-success"/>
@@ -257,7 +234,9 @@ private function uyari ($tip,$metin,$sayfa)
         echo '<tr>
                  <td>'.$sonuc["id"].'</td>
                  <td><input type="text" name="masaad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>';
-                 $this->BolumBilgiVer($sonuc["kategori"]);
+                $this->BolumBilgiVer($db,$sonuc["kategori"]);
+
+                  
 
                 echo ' <td><a href="control.php?islem=masaguncel&masaid='.$sonuc["id"].'" class="btn btn-warning">Güncelle</a></td>
                  <td><a href="control.php?islem=masasil&masaid='.$sonuc["id"].'" class="btn btn-danger" data-confirm="Silmek istediğinizden Eminmisiniz ?">Sil</a></td>
@@ -315,21 +294,26 @@ private function uyari ($tip,$metin,$sayfa)
 
             echo '<form action="" method="post">
                         <div class="col-md-12 table-light"> <h4> Masa Güncelle</h4></div>
-                        <div class="col-md-12 table-light">
+                        <div class="col-md-12 table-light"> Masa Adı :
                         <input type="text" name="masaad" value="'.$aktar["ad"].'" class="form-control m-2"></div>
                         
-                        <div class="col-md-12 table-light class="form-control m-2" >
-                        <select name="kategori" class="form-control m-2">';
+                        <div class="col-md-12 table-light" class="form-control">';
 
-                        foreach ($this->select as $key => $value):
-                            if ($key==$aktar["kategori"]):
-                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
-                        else :
-                             echo '<option value="'.$key.'"> '.$value.'</option>';
-                         endif;
-                             endforeach;                                                  
-                        echo '</select>
-                </div>
+                        $bolid=$aktar["kategori"];
+                        $katcek=$this->genelsorgu($db,"select * from bolumler");
+                         echo 'Kategori Seç : <select name="kategori" class="mt-3 form-control">';
+                        while($katson=$katcek->fetch_assoc()):
+                            if ($katson["id"]==$bolid):
+                                echo'<option value="'.$katson["id"].'" selected="selected" class="form-control">'.$katson["ad"].' </option>';
+                               else :
+                                echo'<option value="'.$katson["id"].'">'.$katson["ad"].' </option>';
+                            endif;                                    
+                        endwhile;
+                        echo ' </select></div>';
+
+
+
+                       echo ' 
                         <div class="col-md-12 table-light"><input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
                         <input type="hidden" name="masaid" value="'.$aktar["id"].'">
                     </form>';
@@ -361,17 +345,18 @@ private function uyari ($tip,$metin,$sayfa)
                         <div class="col-md-12 table-light"> <h4> Masa Ekle</h4></div>
                         <div class="col-md-12 table-light">
                         <input type="text" name="masaad" class="form-control m-2"></div>
-                        <div class="col-md-12 table-light class="form-control m-2">
+                      <div class="col-md-12 text-danger mt-2">
+        ';
 
-                        <select name="kategori" class="form-control m-2">
-                            <option value="1" selected="selected"> SALON</option>
-                            <option value="2"> BAHÇE</option>
-                            <option value="3"> BALKON</option>
-                            <option value="4"> TERAS</option>
+                        $katcek=$this->genelsorgu($db,"select * from bolumler");
+                        echo '
+                        Kategori : <select name="kategori" class="selected m-2 form-control">';
+                        while($katson=$katcek->fetch_assoc()):                            
+                                echo'<option value="'.$katson["id"].'">'.$katson["ad"].' </option>';                  
+                        endwhile;
+                        echo ' </select>';
 
-                            
-                        </select>
-                </div>
+               echo ' </div>
                         <div class="col-md-12 table-light"><input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
                 </form>';
          endif; 
@@ -857,7 +842,7 @@ private function uyari ($tip,$metin,$sayfa)
 
         if ($buton) :
 
-             @$bolumad=htmlspecialchars($_POST["bolumad"]);
+             @$bolumad=htmlspecialchars($_POST["ad"]);
              @$renk=htmlspecialchars($_POST["renk"]);
              @$bolid=htmlspecialchars($_POST["bolid"]); 
 
@@ -879,28 +864,20 @@ private function uyari ($tip,$metin,$sayfa)
 
                                 <div class="col-md-12 table-light class="form-control m-2" > Bölüm Adı :
 
-                        <select name="ad" class="form-control m-2">';
-
-                        foreach ($this->select as $key => $value):
-                            if ($key==$aktar["id"]):
-                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
-                        else :
-                             echo '<option value="'.$key.'"> '.$value.'</option>';
-                         endif;
-                             endforeach;                                                  
-                        echo '</select>
+                       
+                        <input type="text" name="ad" value="'.$aktar["ad"].'" class="form-control m-2">
                 </div>
 
                        
                       <div class="col-md-12 table-light class="form-control m-2" > Renk Seç :
 
-                        <select name="renk" class="form-control m-2">';
+                        <select name="renk" class="form-control m-2 ">';
 
                         foreach ($this->renk as $key => $value):
-                            if ($key==$aktar["id"]):
-                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                            if ($key==$aktar["renk"]):
+                            echo '<option value="'.$value.'" selected="selected" class="bg-'.$value.'"> '.$value.'</option>';
                         else :
-                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                             echo '<option  value="'.$value.'"> '.$value.'</option>';
                          endif;
                              endforeach;                                                  
                         echo '</select>
@@ -953,19 +930,10 @@ private function uyari ($tip,$metin,$sayfa)
                 <?php 
                     echo '
                         
-                        <div class="col-md-12 table-light">ürün adı : 
+                        <div class="col-md-12 table-light"> ürün adı : 
 
 
-                        <select name="ad" class="form-control m-2">';
-
-                        foreach ($this->select as $key => $value):
-                            if ($key==$aktar["id"]):
-                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
-                        else :
-                             echo '<option value="'.$key.'"> '.$value.'</option>';
-                         endif;
-                             endforeach;                                                  
-                        echo '</select>
+                     <input type="text" name="ad" value="" class="form-control m-2" placeholder="Bölüm Adı" required="required">
                 </div>
                
                        
@@ -974,7 +942,7 @@ private function uyari ($tip,$metin,$sayfa)
                         <select name="renk" class="form-control m-2">';
 
                         foreach ($this->renk as $key => $value):
-                            if ($key==$aktar["id"]):
+                            if ($key==$aktar["renk"]):
                             echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
                         else :
                              echo '<option value="'.$key.'"> '.$value.'</option>';
