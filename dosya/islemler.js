@@ -56,6 +56,7 @@ $('#odemeal').click(function() {
 					success: function(donen_veri){
 					$('#hesapform').trigger("reset");
 						window.location.reload();
+						header("location:masalar.php");
 					},			
 				});
 			});
@@ -160,7 +161,7 @@ $('#tumunusil').click(function() {
 				
 		$.post("islemler.php?islem=tumunusil",{"id":sectionId},function(){
 			window.location.reload();		
-			
+		
      });			
   });
   });

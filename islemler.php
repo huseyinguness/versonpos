@@ -37,8 +37,7 @@ function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue,$Bolum
 	<form id="'.$formvalue.'"> 
 						 
 						 <input type="hidden" name="mevcutmasaid" value="'.$masaid.'" />
-						 <select name="hedefmasa" class="form-control">'; 
-						 					
+						 <select name="hedefmasa" class="form-control">';						 					
 						$masadeg=benimsorum2($db,"select * from masalar where durum=$durum and rezervedurum=0 and kategori=$BolumTercih",1); 						
 						while ($son = $masadeg->fetch_assoc()):						
 						if ($masaid!=$son["id"]) :
@@ -220,15 +219,12 @@ case "hesap":
 			
 			$raporekles=$db->prepare($raporekle);		
 			$raporekles->execute();
-
+				header("location:masalar.php");
 				$urunbak=benimsorum2($db,"select stok from urunler where id=$b",1);		
 				$urunbilgi=$urunbak->fetch_assoc();
-
 			    if ($urunbilgi["stok"]!="Yok"):
-
 				$urunStokSon=$urunbilgi["stok"] - $e;
-
-				$raporekles=$db->prepare("update urunler set stok='$urunStokSon' where id=$b");		
+				$raporekles=$db->prepare("update urunler set stok='$urunStokSon' where id=$b");	
 				$raporekles->execute();				
 			     endif;
 
@@ -286,6 +282,8 @@ case "goster":
 	             $verilericek=benimsorum2($db,"select * from masabakiye where masaid=$id",1);					
 					if ($d->num_rows==0) :					
 					uyarimesaj("Henüz sipariş yok","danger");
+
+
 					 /* MASANIN DURUMUNU GÜNCELLEYECEĞİM*/				 
 				 $ekleson2=$db->prepare("update masalar set durum=0 where id=$id");
 				 $ekleson2->execute();				 
@@ -313,16 +311,18 @@ case "goster":
 						$adet +=$gelenson["adet"];
 						$sontutar +=$tutar;
 						$masaid=$gelenson["masaid"];
-	$a1=benimsorum2($db,"select * from urunler where id=".$gelenson["urunid"],1)->fetch_assoc();
-	$a2=benimsorum2($db,"select * from kategoriler where id=".$a1["katid"],1)->fetch_assoc();
+						$a1=benimsorum2($db,"select * from urunler where id=".$gelenson["urunid"],1)->fetch_assoc();
+						$a2=benimsorum2($db,"select * from kategori where id=".$a1["katid"],1)->fetch_assoc();
 
 						echo '<tr>
-						<td class="p-2"><b>'.$a2["ad"].'</b><br>'.$gelenson["urunad"].'</td>
-						
+						<td class="p-2">
+						<b>'.$a2["ad"].'</b>
+						<br>'.$gelenson["urunad"].'</td>						
 						<td class="p-2">'.$gelenson["adet"].'</td>
-
 						<td class="p-2">'.number_format($tutar,2,'.',',').'</td>	
-	                    <td id="yakala" class="p-2"><a class="btn btn-danger mt-2 text-white" sectionId="'. $gelenson["urunid"].'" sectionId2="'.$masaid.'"><i class="fas fa-trash-alt"></i></a></td>				
+	                    <td id="yakala" class="p-2">
+	                    <a class="btn btn-danger mt-2 text-white" sectionId="'. $gelenson["urunid"].'" sectionId2="'.$masaid.'">
+	                    <i class="fas fa-trash-alt"></i></a></td>				
 						</tr>';						
 						endwhile;						
 						echo '
@@ -400,7 +400,7 @@ case "ekle":
 						$guncelson2=$db->prepare($guncel2);
 						$guncelson2->execute();	
 					else:										   
-						$durumbak=benimsorum2($db,"select * from kategoriler where id=$katid",1);
+						$durumbak=benimsorum2($db,"select * from kategori where id=$katid",1);
 				 	    $durumbak=$durumbak->fetch_assoc();
 					if ($durumbak["mutfakdurum"]==0) :
 									

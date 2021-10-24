@@ -90,6 +90,7 @@ $(document).ready(function()
                    <a href="control.php?islem=masayon" id="lk" class="col-md-11"> <i class="fas fa-file-medical-alt"></i><span style="margin-left:10px;">Masalar</span></a>
                    <a href="control.php?islem=urunyon" id="lk" class="col-md-11"> <i class="fas fa-torah"></i><span style="margin-left:10px;">Ürünler</span></a>                 
                    <a href="control.php?islem=katyon" id="lk" class="col-md-11">  <i class="fas fa-receipt"></i> <span style="margin-left:10px;">Kategoriler</span></a>
+                    <a href="control.php?islem=bolyon" id="lk" class="col-md-11">  <i class="fas fa-receipt"></i> <span style="margin-left:10px;">Bölümler</span></a>
                    <a href="control.php?islem=garsonyon" id="lk" class="col-md-11"> <i class="fas fa-street-view"></i><span style="margin-left:10px;">Garsonlar</span></a>
                    <a href="control.php?islem=garsonper" id="lk" class="col-md-11"> <i class="fas fa-chart-line"></i><span style="margin-left:10px;">Garson Rapor</span></a>
                    <a href="control.php?islem=raporyon"  id="lk" class="col-md-11"> <i class="fas fa-calculator" ></i> <span style="margin-left:10px;">Raporlar </span></a>
@@ -144,7 +145,7 @@ $(document).ready(function()
 	break;
 	//-----------------------------
 	case "katyon":
-	$yokclas->kategoriyon($db);	
+	$yokclas->katyon($db);	
 	break;
 	case "katekle":
 	$yokclas->katekle($db);	
@@ -154,6 +155,19 @@ $(document).ready(function()
 	break;
 	case "katguncel":
 	$yokclas->katguncel($db);	
+	break;	
+	//-----------------------------	
+	case "bolyon":
+	$yokclas->bolyon($db);	
+	break;
+	case "bolekle":
+	$yokclas->bolekle($db);	
+	break;
+	case "bolsil":
+	$yokclas->bolsil($db);	
+	break;
+	case "bolguncel":
+	$yokclas->bolguncel($db);	
 	break;	
 	//-----------------------------	
 	case "raporyon":

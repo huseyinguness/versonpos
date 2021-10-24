@@ -2,16 +2,26 @@
 ob_start();
 
 class yonetim {
-protected $tablolar=array("gecicimasa","geciciurun","geciciodeme");
-protected $select=array(
-        "1"=> "SALON",
-        "2"=> "BAHÇE",
-        "3"=> "BALKON",
-        "4"=> "TERAS"
-     );
+protected $select=array();
+protected $renk=array();
+function __construct (){
+ 
+        $vt = new mysqli("localhost","root","","versonpos") or die ("Bağlanamadı");
+        $vt->set_charset("utf8");
+
+        $so =$this->genelsorgu($vt,"select * from bolumler");
+        while ($sonuc=$so->fetch_assoc()):
+            $this->select[$sonuc["id"]]=$sonuc["ad"];
+        endwhile;
+
+        $so2 =$this->genelsorgu($vt,"select * from bolumler");
+        while ($sonuc2=$so2->fetch_assoc()):
+            $this->renk[$sonuc2["id"]]=$sonuc2["renk"];
+        endwhile;
+    }
 // uyarı sorgusu $aktar
-    protected $aktar1,$aktar2,$veri1,$veri2,$veri3;
-  private function uyari ($tip,$metin,$sayfa)
+protected $aktar1,$aktar2,$veri1,$veri2,$veri3;
+private function uyari ($tip,$metin,$sayfa)
      {
         echo '<div class="alert alert-'.$tip.'">'.$metin.'</div>';
         header('refresh:1,url='.$sayfa.'');
@@ -140,7 +150,7 @@ protected $select=array(
     }
     function toplamkat($db)
     {
-        echo $this->genelsorgu($db,"select * from kategoriler")->num_rows;
+        echo $this->genelsorgu($db,"select * from kategori")->num_rows;
     }
     function toplamurun($db)
     {
@@ -191,6 +201,7 @@ protected $select=array(
         break;
     endswitch;
    } 
+
 // masa yönetimi
     function masayon ($db)
     {
@@ -206,7 +217,7 @@ protected $select=array(
        <table class="table text-center table-striped table-bordered mx-auto col-md-9 mt-4 table-dark">
               <thead>';
               //    <tr>
-//      <th> 
+  //      <th> 
 
                    //   <form action="control.php?islem=masayon" method="post">
                    //   <input type="search" name="urun" class="form-control" placeholder="Aranacak Kelimeyi Yazın"/></th>
@@ -366,6 +377,7 @@ protected $select=array(
          endif; 
          echo ' </div>';
     }
+
 // urun yönetimi
     function urunyon ($db,$tercih)
     {
@@ -419,7 +431,7 @@ protected $select=array(
                       <form action="control.php?islem=katgore" method="post">
                       <select name="katid" class="form-control">';
 
-                      $d=$this->genelsorgu($db,"select * from kategoriler");
+                      $d=$this->genelsorgu($db,"select * from kategori");
                       while($katson=$d->fetch_assoc()) :
                         echo '
                         <option value="'.$katson["id"].'">'.$katson["ad"].'</option>';
@@ -448,7 +460,7 @@ protected $select=array(
                  <td><input type="text" name="urunad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>
                  <td>';
                         $katid=$sonuc["katid"];
-                        $katcek=$this->genelsorgu($db,"select * from kategoriler");
+                        $katcek=$this->genelsorgu($db,"select * from kategori");
                         echo '<select name="katid" class="selected m-2 form-control">';
                         while($katson=$katcek->fetch_assoc()):
                             if ($katson["id"]==$katid):
@@ -576,7 +588,7 @@ protected $select=array(
                         <div class="col-md-12 table-light text-danger" class="form-control">';
 
                         $katid=$aktar["katid"];
-                        $katcek=$this->genelsorgu($db,"select * from kategoriler");
+                        $katcek=$this->genelsorgu($db,"select * from kategori");
                          echo 'Kategori<select name="katid" class="mt-3 form-control">';
                         while($katson=$katcek->fetch_assoc()):
                             if ($katson["id"]==$katid):
@@ -649,7 +661,7 @@ protected $select=array(
                          <div class="col-md-12 text-danger mt-2"><input type="text" name="stok" value="" class="form-control m-2">
         <hr>';
 
-                        $katcek=$this->genelsorgu($db,"select * from kategoriler");
+                        $katcek=$this->genelsorgu($db,"select * from kategori");
                         echo '
                         Kategori : <select name="katid" class="selected m-2 form-control">';
                         while($katson=$katcek->fetch_assoc()):                            
@@ -662,13 +674,14 @@ protected $select=array(
          endif; 
          echo ' </div>';
     }
+
 // kategori yönetimi
-    function kategoriyon ($db)
+    function katyon ($db)
     {
 
-        $so=$this->genelsorgu($db,"select * from kategoriler");
+        $so=$this->genelsorgu($db,"select * from kategori");
 
-       echo ' <div class="col-md-12 text-left mr-auto mt-3" style="background-color: #5555 ;"> <h3> || kategori Yönetimi <a href="control.php?islem=kategoriekle" title=""> <input name="buton" type="submit" class="btn btn-success" value=" + Yeni Kategori"></a></h3> </div>
+       echo ' <div class="col-md-12 text-left mr-auto mt-3" style="background-color: #5555 ;"> <h3> || Kategori Yönetimi <a href="control.php?islem=kategoriekle" title=""> <input name="buton" type="submit" class="btn btn-success" value=" + Yeni Kategori"></a></h3> </div>
 
        <table class="table text-center table-striped table-bordered mx-auto col-md-10 mt-4">
                     <thead>
@@ -685,23 +698,23 @@ protected $select=array(
                 
                  <td><input type="text" name="kategoriad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>                                
                  <td><a href="control.php?islem=katguncel&kategoriid='.$sonuc["id"].'" name="buton" class="btn btn-warning">Güncelle</a></td>
-                 <td><a href="control.php?islem=kategorisil&kategoriid='.$sonuc["id"].'" class="btn btn-danger" data-confirm="Silmek istediğinizden Eminmisiniz ?">Sil</a></td>
+                 <td><a href="control.php?islem=katsil&kategoriid='.$sonuc["id"].'" class="btn btn-danger" data-confirm="Silmek istediğinizden Eminmisiniz ?">Sil</a></td>
             </tr>';
 
      endwhile;
      echo ' </tbody> </table>';
     }
 // kategori sil
-    function kategorisil ($db)
+    function katsil ($db)
     {        
         @$kategoriid=htmlspecialchars($_GET["kategoriid"]);
          @$kategoriad=htmlspecialchars($_GET["kategoriad"]);
         if ($kategoriid!="" && is_numeric($kategoriid)) :
 
             @$this->genelsorgu($db,"DELETE FROM kategori WHERE id=$kategoriid");
-            @$this->uyari("success","Ürün Başarı İle Silindi","control.php?islem=kategoriyonetimi");
+            @$this->uyari("success","Ürün Başarı İle Silindi","control.php?islem=katyon");
         else:
-            @$this->uyari("danger","Ürün silinmedi hata oluştu !!","control.php?islem=kategoriyonetimi");
+            @$this->uyari("danger","Ürün silinmedi hata oluştu !!","control.php?islem=katyon");
         endif;
     }    
 // kategori Güncelle
@@ -711,7 +724,7 @@ protected $select=array(
         @$buton=$_POST["buton"];
 
         echo '
-       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || kategori Yönetimi - Güncelleme </h3> </div>
+       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Kategori Yönetimi - Güncelleme </h3> </div>
         <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
 
         if ($buton) :
@@ -720,17 +733,17 @@ protected $select=array(
              @$kategoriid=htmlspecialchars($_POST["kategoriid"]); 
 
              if ($kategoriad=="" && $kategoriid=="") :
-                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=kategoriyonetimi");
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=katyon");
             else :
                 $this->genelsorgu($db,"update kategori set ad='$kategoriad' where id=$kategoriid");
-                @$this->uyari("success","kategori Güncellendi!!","control.php?islem=kategoriyonetimi");  
+                @$this->uyari("success","kategori Güncellendi!!","control.php?islem=katyon");  
             endif;          
             
          else:
 
         $kategoriid=$_GET["kategoriid"];
 
-        $aktar=$this->genelsorgu($db,"select * from kategoriler where id=$kategoriid")->fetch_assoc();  
+        $aktar=$this->genelsorgu($db,"select * from kategori where id=$kategoriid")->fetch_assoc();  
 
             echo '<form action="" method="post">                       
                        
@@ -750,7 +763,7 @@ protected $select=array(
     {
         @$buton=$_POST["buton"];
          echo '
-       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || kategori Yönetimi - Ekleme </h3> </div>
+       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Kategori Yönetimi - Ekleme </h3> </div>
         <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
 
         if ($buton) :
@@ -762,13 +775,13 @@ protected $select=array(
 
              if ($kategoriad=="" && $katid=="") :
 
-                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=kategoriyonetimi");
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=katyon");
 
             else :
 
                 @$this->genelsorgu($db,"insert into kategori (ad) values ('$kategoriad')");
 
-                @$this->uyari("success","kategori Eklendi !!","control.php?islem=kategoriyonetimi");  
+                @$this->uyari("success","kategori Eklendi !!","control.php?islem=katyon");  
 
 
             endif;          
@@ -787,6 +800,195 @@ protected $select=array(
          endif; 
          echo ' </div>';
     } 
+
+// bolum yönetimi
+    function bolyon ($db)
+    {
+
+        $so=$this->genelsorgu($db,"select * from bolumler");
+
+       echo ' <div class="col-md-12 text-left mr-auto mt-3" style="background-color: #5555 ;"> <h3> || Bölum Yönetimi <a href="control.php?islem=bolekle" title=""> <input name="buton" type="submit" class="btn btn-success" value=" + Yeni Bölum"></a></h3> </div>
+
+       <table class="table text-center table-striped table-bordered mx-auto col-md-10 mt-4">
+                    <thead>
+                        <th scope="col"> Bölum No </th>                        
+                        <th scope="col"> Bölum Adı </th>    
+                        <th scope="col"> Renk </th>                    
+                        <th scope="col"> Güncelle</th>
+                        <th scope="col"> Sil </th>
+                    </thead><tbody>';                                         
+
+     while ($sonuc=$so->fetch_assoc()):
+
+        echo '<tr>
+                 <td>'.$sonuc["id"].'</td>
+                
+                 <td><input type="text" name="bolumad" value="'.$sonuc["ad"].'" class="form-control m-1"></td>    
+                   <td><input type="text" name="bolumad" value="'.$sonuc["renk"].'" class="form-control m-1 bg-'.$sonuc["renk"].'"></td>                                
+                 <td><a href="control.php?islem=bolguncel&bolid='.$sonuc["id"].'" name="buton" class="btn btn-warning">Güncelle</a></td>
+                 <td><a href="control.php?islem=bolsil&bolid='.$sonuc["id"].'" class="btn btn-danger" data-confirm="Silmek istediğinizden Eminmisiniz ?">Sil</a></td>
+            </tr>';
+
+     endwhile;
+     echo ' </tbody> </table>';
+    }
+// bolum sil
+    function bolsil ($db)
+    {        
+        @$bolumid=htmlspecialchars($_GET["bolumid"]);
+        
+        if ($bolumid!="" && is_numeric($bolumid)) :
+
+            @$this->genelsorgu($db,"DELETE FROM bolumler WHERE id=$bolumid");
+            @$this->uyari("success","Ürün Başarı İle Silindi","control.php?islem=bolyon");
+        else:
+            @$this->uyari("danger","Ürün silinmedi hata oluştu !!","control.php?islem=bolyon");
+        endif;
+    }    
+// bolum Güncelle
+    function bolguncel ($db)
+
+    {
+        @$buton=$_POST["buton"];
+
+        echo '
+       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Bölüm Yönetimi - Güncelleme </h3> </div>
+        <div class="col-md-4 text-center mx-auto mt-5 table-bordered">';
+
+        if ($buton) :
+
+             @$bolumad=htmlspecialchars($_POST["bolumad"]);
+             @$renk=htmlspecialchars($_POST["renk"]);
+             @$bolid=htmlspecialchars($_POST["bolid"]); 
+
+             if ($bolumad=="" && $bolid=="") :
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=bolumyon");
+            else :
+                $this->genelsorgu($db,"update bolumler set ad='$bolumad',renk='$renk' where id=$bolid");
+                @$this->uyari("success","Bölum Güncellendi!!","control.php?islem=bolyon");  
+            endif;          
+            
+         else:
+
+        $bolid=$_GET["bolid"];
+
+        $aktar=$this->genelsorgu($db,"select * from bolumler where id=$bolid")->fetch_assoc();  
+
+            echo '
+            <form action="" method="post">     
+
+                                <div class="col-md-12 table-light class="form-control m-2" > Bölüm Adı :
+
+                        <select name="ad" class="form-control m-2">';
+
+                        foreach ($this->select as $key => $value):
+                            if ($key==$aktar["id"]):
+                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                        else :
+                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                         endif;
+                             endforeach;                                                  
+                        echo '</select>
+                </div>
+
+                       
+                      <div class="col-md-12 table-light class="form-control m-2" > Renk Seç :
+
+                        <select name="renk" class="form-control m-2">';
+
+                        foreach ($this->renk as $key => $value):
+                            if ($key==$aktar["id"]):
+                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                        else :
+                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                         endif;
+                             endforeach;                                                  
+                        echo '</select>
+                </div>
+                        <div class="col-md-12 table-light">
+                        <input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
+                        <input type="hidden" name="bolid" value="'.$aktar["id"].'">
+                    </form>';
+         endif; 
+         
+       
+         echo ' </div>';
+
+
+    }
+// bolum Ekleme 
+    function bolekle ($db)
+
+    {
+        @$buton=$_POST["buton"];
+         echo '
+       <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Bölüm Yönetimi - Ekleme </h3> </div>
+        <div class="col-md-4 text-center mx-auto mt-5 table-bordered">';
+
+        if ($buton) :
+
+            @$bolumad=htmlspecialchars($_POST["bolumad"]);
+             @$renk=htmlspecialchars($_POST["renk"]);
+             @$bolid=htmlspecialchars($_POST["bolid"]); 
+           
+             
+
+             if ($bolumad=="" && $katid=="") :
+
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=bolyon");
+
+            else :
+
+                @$this->genelsorgu($db,"insert into bolumler (ad,renk) values ('$bolumad','$renk')");
+
+                @$this->uyari("success","bolum Eklendi !!","control.php?islem=bolyon");  
+
+
+            endif;          
+            
+         else:
+            ?>
+
+            <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+                <?php 
+                    echo '
+                        
+                        <div class="col-md-12 table-light">ürün adı : 
+
+
+                        <select name="ad" class="form-control m-2">';
+
+                        foreach ($this->select as $key => $value):
+                            if ($key==$aktar["id"]):
+                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                        else :
+                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                         endif;
+                             endforeach;                                                  
+                        echo '</select>
+                </div>
+               
+                       
+                      <div class="col-md-12 table-light class="form-control m-2" >Renk adı : 
+
+                        <select name="renk" class="form-control m-2">';
+
+                        foreach ($this->renk as $key => $value):
+                            if ($key==$aktar["id"]):
+                            echo '<option value="'.$key.'" selected="selected" > '.$value.'</option>';
+                        else :
+                             echo '<option value="'.$key.'"> '.$value.'</option>';
+                         endif;
+                             endforeach;                                                  
+                        echo '</select>
+                    
+                        <div class="col-md-12 table-light">
+                        <input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
+                </form>';
+         endif; 
+         echo ' </div> ';
+    } 
+
 // garson yönetimi
     function garsonyon($db)
     {
@@ -914,6 +1116,7 @@ protected $select=array(
          endif; 
          echo ' </div>';
     }     
+
 // şifre değişim
     function sifredegis ($db)
 
@@ -969,6 +1172,7 @@ protected $select=array(
          endif; 
          echo ' </div>';
     }
+
 // Rapor masa ürün ayar  kodları
     function raporayar ($db,$sorgu)
     {
@@ -1055,11 +1259,11 @@ protected $select=array(
                 
                 echo '<thead>
                 <tr class="text-center">
-                <th><a href="control.php?islem=raporyon&tar=bugun">Bugün</a></th> 
-                <th><a href="control.php?islem=raporyon&tar=dun">Dün</a></th> 
-                <th><a href="control.php?islem=raporyon&tar=hafta">Bu hafta</a></th> 
-                <th><a href="control.php?islem=raporyon&tar=ay">Bu Ay</a></th> 
-                <th><a href="control.php?islem=raporyon&tar=tum">Tüm Zamanlar</a></th> 
+                <th><a href="control.php?islem=raporyon&tar=bugun"  class="btn btn-info">Bugün</a></th> 
+                <th><a href="control.php?islem=raporyon&tar=dun"  class="btn btn-info">Dün</a></th> 
+                <th><a href="control.php?islem=raporyon&tar=hafta"  class="btn btn-info">Bu hafta</a></th> 
+                <th><a href="control.php?islem=raporyon&tar=ay"  class="btn btn-info">Bu Ay</a></th> 
+                <th><a href="control.php?islem=raporyon&tar=tum"  class="btn btn-info">Tüm Zamanlar</a></th> 
                 <th colspan="2" class="mx-auto"><form action="control.php?islem=raporyon&tar=tarih" method="post">
                 <input type="date" name="tarih1" class="form-control col-md-12">
                 
@@ -1123,12 +1327,9 @@ protected $select=array(
                         
     $this->genelsorgu($db,"update gecicimasa set hasilat=$sonhasilat, adet=$sonadet where masaid=$id");
                         
-                        //güncelleme
-                        
-                        endif;                  
-                        
-                        
-                        endwhile;
+                        //güncelleme                        
+                        endif; 
+                                                endwhile;
                          
                          
                          endif;                      
@@ -1240,7 +1441,13 @@ protected $select=array(
                     
         endwhile;         
                          
-                echo'</tbody> </table>
+                echo' <tr class="font-weight-bold table-secondary text-info">
+                         <td colspan="2">TOPLAM</td>   
+                         <td colspan="1">'.$toplamadet.'</td> 
+                         <td colspan="1">'.number_format($toplamhasilat,2,'.','.').'</td>                       
+                         </tr>
+                                
+                        </tbody> </table> 
                   
                   </td>  
                   
@@ -1508,6 +1715,7 @@ protected $select=array(
                             </tbody> 
                             </table> ';
     }
+
 // ayar yönetimi
     function yoneticiayar ($db)
     {

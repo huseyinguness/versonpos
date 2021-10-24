@@ -3,7 +3,7 @@ require_once 'baglan.php';
 ob_start();
 class vipTema
 {
-private function benimsorum($vt,$sorgu,$tercih) {
+private function genelsorgu($vt,$sorgu,$tercih) {
 				
 					$a=$sorgu;
 					$b=$vt->prepare($a);
@@ -13,7 +13,7 @@ private function benimsorum($vt,$sorgu,$tercih) {
 					endif;
 					
 			} // baba fonksiyon		
-function benimsorum2($vt,$sorgu,$tercih) {
+function genelsorgu2($vt,$sorgu,$tercih) {
 				
 					$a=$sorgu;
 					$b=$vt->prepare($a);
@@ -40,7 +40,7 @@ private function uyari ($tip,$metin,$sayfa)
     }
 function doluluk($db) {
 			
-			$son=$this->benimsorum($db,"select * from doluluk",1);
+			$son=$this->genelsorgu($db,"select * from doluluk",1);
 			$veriler=$son->fetch_assoc();			
 			$toplam = $veriler["bos"] + $veriler["dolu"];			
 		 	$oran =  ($veriler["dolu"] / $toplam) * 100 ;		
@@ -48,22 +48,22 @@ function doluluk($db) {
 			
 		}		
 function masatoplam($db) {
-				echo $this->benimsorum($db,"select * from masalar",1)->num_rows;						
+				echo $this->genelsorgu($db,"select * from masalar",1)->num_rows;						
 		} // masa toplam sayı
 function siparistoplam($db) {
-				echo $this->benimsorum($db,"select * from anliksiparis",1)->num_rows;						
+				echo $this->genelsorgu($db,"select * from anliksiparis",1)->num_rows;						
 		} // masa toplam sayı		
 // MASA DETAY FONKSİYON
 function masagetir ($vt,$id)
 		 {			
 				$get="select * from masalar where id=$id";			
-				return $this->benimsorum($vt,$get,1);
+				return $this->genelsorgu($vt,$get,1);
 		}
 
 	// MASA DETAY FONKSİYON
 function urungrup($db) {	
-	$se="select * from kategoriler";
-	$gelen=$this->benimsorum($db,$se,1);	
+	$se="select * from kategori";
+	$gelen=$this->genelsorgu($db,$se,1);	
 	while ($son=$gelen->fetch_assoc()) :	
 	echo '<a class="btn btn-dark mt-2 text-white" sectionId="'.$son["id"].'">'.$son["ad"].'</a><br>';	
 	endwhile;		
@@ -73,7 +73,7 @@ function garsonbak($db) {
 		$oturumTipi =$_COOKIE["oturumTipi"];
 		$id=$this->coz($_COOKIE["oturumid"]);       
 
-        $gelen=$this->benimsorum($db,"SELECT * FROM ".$oturumTipi." WHERE id=$id",1)->fetch_assoc();
+        $gelen=$this->genelsorgu($db,"SELECT * FROM ".$oturumTipi." WHERE id=$id",1)->fetch_assoc();
        
 		if ($gelen["ad"]!="") :		
 		echo $gelen["ad"];	
@@ -83,6 +83,7 @@ function garsonbak($db) {
 		echo "Kimse Yok";			
 		endif;
 	}
+// masalar
 function BolumTercihGetir($db) {
 	       $oturumTipi =$_COOKIE["oturumTipi"];
 	        $id=$this->coz($_COOKIE["oturumid"]);         
@@ -92,43 +93,45 @@ function BolumTercihGetir($db) {
 	        $veri=$sonbilgi->fetch_assoc();	        
 	        // ilgili bölüm adı geliyor
 	       return $veri["AktifBolum"];
-  }	
-function BolumAdGetir($deger)
-	{
-		switch ($deger):
-			case 1:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>SALON</h3> </div>';
-			break;
-			case 2:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>BAHÇE</h3> </div>';
-			break;
-			case 3:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>BALKON</h3> </div>';
-			break;
-			case 4:
-			echo'<div class="col-md-12 bg-info text-white text-center pt-2"> <h3>TERAS</h3> </div>';
-			break;
+  }
+function BolumAdGetir($db,$deger) {
 
+        $sonuc = $this->genelsorgu($db, "select * from bolumler where id=" . $deger, 1);
+        $masason = $sonuc->fetch_assoc();
 
-		endswitch;
+        echo '<div class="col-md-12 bg-info pt-2"><h3>Bölüm Adı : ' . $masason["ad"] . '</h3></div>';
+    }
+function BolumleriGetir($db){
 
+	echo '<div class="row">';	
+	
+		$bolumsonuc=$this->prepare($db,"SELECT * FROM `bolumler");
+
+		while ($bolumlerson=$bolumsonuc->fetch_assoc()):
+
+			echo '<div class="col-md-3 mx-auto text-center">
+                  <label class="btn m-1 btn-block diger r'.$bolumlerson["id"].'" id="girisButon">
+                  <input name="bolum" type="radio" value="'.$bolumlerson["id"].'"/>'.$bolumlerson["ad"].'</label>
+                  </div>';
+		endwhile;
+		echo '</div>';
 	}
 function vipTemaMasalar($db) 
            {	      	        
 	        // ilgili bölüm adı geliyor
-	        $this->BolumAdGetir($this->BolumTercihGetir($db));
-			$sonuc=$this->benimsorum($db,"select * from masalar where kategori=".$this->BolumTercihGetir($db),1);
+	        $this->BolumAdGetir($db,$this->BolumTercihGetir($db));
+			$sonuc=$this->genelsorgu($db,"select * from masalar where kategori=".$this->BolumTercihGetir($db),1);
 					$bos=0;
 					$dolu=0;				
 					while ($masason=$sonuc->fetch_assoc()) :					
 					$siparisler='select * from anliksiparis where masaid='.$masason["id"].'';
-					$satir=$this->benimsorum($db,$siparisler,1)->num_rows;					
+					$satir=$this->genelsorgu($db,$siparisler,1)->num_rows;					
 					if ($satir==0):	
 					$icon='ovalb';
 					else:
 					$icon='ovald';
 					endif;	
-					$this->benimsorum($db,$siparisler,1)->num_rows==0 ? $bos++ : $dolu++ ;
+					$this->genelsorgu($db,$siparisler,1)->num_rows==0 ? $bos++ : $dolu++ ;
 					if ($masason["rezervedurum"]==0) :
 					echo '<div class="col-lg-2 col-md-3 col-sm-12">  
 					<a href="masadetay.php?masaid='.$masason["id"].'" id="lin"> 
@@ -179,16 +182,16 @@ function vipTemaMasalar($db)
 					$dolson=$db->prepare($dol);
 					$dolson->execute();
 	}	 
-// masalar
 function vipTemaUrunGrup($db) {	
 	
-	$gelen=$this->benimsorum($db,"select * from kategoriler",1);	
+	$gelen=$this->genelsorgu($db,"select * from kategori",1);	
 	while ($son=$gelen->fetch_assoc()) :
 		
 	echo '<a class="btn m-1 text-center kategoributon" style="color:#68d3c8;" sectionId="'.$son["id"].'">'.$son["ad"].'</a>';	
 	endwhile;	
 		
 	} // tema2 grup
+// mutfak	
 function mutfakdakika($saat,$dakika) {
 		
 		
@@ -206,14 +209,14 @@ function mutfakdakika($saat,$dakika) {
 		endif;
 	}		
 function mutfakbilgi($db) {
-		$siparisler=$this->benimsorum($db,"select * from mutfaksiparis where durum=0",1);		
+		$siparisler=$this->genelsorgu($db,"select * from mutfaksiparis where durum=0",1);		
 		$idkontrol=array();		
 		while ($geldiler=$siparisler->fetch_assoc()) :
 		$masaid=$geldiler["masaid"];
 		if (!in_array($masaid,$idkontrol)) :
 		$idkontrol[]=$masaid;			
-		$siparisler2=$this->benimsorum($db,"select * from mutfaksiparis where masaid=$masaid and durum=0",1);	
-		$masaad=$this->benimsorum($db,"select * from masalar where id=$masaid",1);
+		$siparisler2=$this->genelsorgu($db,"select * from mutfaksiparis where masaid=$masaid and durum=0",1);	
+		$masaad=$this->genelsorgu($db,"select * from masalar where id=$masaid",1);
 		$masabilgi=$masaad->fetch_assoc();					
 		echo '
 		<div class="col-md-3 ">
@@ -260,20 +263,20 @@ function dakikakontrolet($saat,$dakika)
 	}
 function bekleyensatir($db) {
 		
-		return $this->benimsorum($db,"select * from mutfaksiparis where durum=1",1)->num_rows;
+		return $this->genelsorgu($db,"select * from mutfaksiparis where durum=1",1)->num_rows;
 		
 	}
+// Giriş Kontrol	
 function GirisYetkiDurum ($db,$tabloTip)
 	{
 		echo '<select name="kulad" class="form-control mt-2">';
-				 $b=$this->benimsorum($db,"select * from ".$tabloTip,1);
+				 $b=$this->genelsorgu($db,"select * from ".$tabloTip,1);
 				 while ($garsonlar=$b->fetch_assoc()) :
 				echo '<option value="'.$garsonlar["ad"].'">'.$garsonlar["ad"].'</option>';
 				 endwhile;              
                 echo '</select>';
 	}
-// Giriş Kontrol
-public function giriskont($veritabani,$kulad,$sifre,$tablo,$bolum) {  
+public function giriskont($veritabani,$kulad,$sifre,$tablo,$bolum) {
     
    
     $sor=$veritabani->prepare("SELECT * FROM $tablo WHERE ad='$kulad' and sifre='$sifre'");
@@ -282,9 +285,7 @@ public function giriskont($veritabani,$kulad,$sifre,$tablo,$bolum) {
     $veri=$sonbilgi->fetch_assoc();    
     if ($sonbilgi->num_rows==0) :  
     $this->uyari("danger","Bilgiler Hatalı Lüftfen Doğru Bilgi Giriniz !!","index.php");
-    else:
-
-    
+    else:    
     $sor=$veritabani->prepare("update $tablo set durum=1,AktifBolum=$bolum WHERE ad='$kulad' and sifre='$sifre'");
     $sor->execute();
 
@@ -302,7 +303,7 @@ public function giriskont($veritabani,$kulad,$sifre,$tablo,$bolum) {
     
     }
 // cokkie Kontrol
-      public function cookcon ($d,$durum=false)
+public function cookcon ($d,$durum=false)
      {
       if (isset($_COOKIE["kul"])):
 	        $kulad =$_COOKIE["kul"];
@@ -332,6 +333,7 @@ public function giriskont($veritabani,$kulad,$sifre,$tablo,$bolum) {
 	        	header("location:index.php"); endif;         
             
        endif;    
-    }     
+    }
+
 }
 ?>

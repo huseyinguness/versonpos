@@ -33,7 +33,7 @@ $("#ButonlarAna").load("islemler.php?islem=butonlar&id="+id);
 			success: function(donen_veri)			{
 			$("#veri").load("islemler.php?islem=goster&id="+id);
 			$('#formum').trigger("reset");	
-			$("#cevap").html(donen_veri).fadeOut(1400);	
+			$("#cevap").html(donen_veri).fadeOut(1400);	 
 			},			
 		})		
 	})*/
@@ -103,10 +103,14 @@ $('#urunler a').click(function(){
                       <!-- iskonto bölüm -->
                         <div class="col-md-5 text-center">
                         <h4>ÜRÜN İSKONTO</h4><hr/> 
-                        <label class="btn mt-2 adetbuton lab10 diger" ><input name="iskonto" type="radio" value="10"  /> %10</label>
-                        <label class="btn mt-2 adetbuton lab25 diger"><input name="iskonto" type="radio" value="25"  /> %25</label>
-                        <label class="btn mt-2 adetbuton lab50 diger"><input name="iskonto" type="radio" value="50"  /> %50</label>
-                        <label class="btn mt-2 adetbuton lab100 diger"><input name="iskonto" type="radio" value="100"  /> %100</label>    
+                        <label class="btn mt-2 adetbuton lab10 diger" >
+                            <input name="iskonto" type="radio" value="10"/> %10</label>
+                        <label class="btn mt-2 adetbuton lab25 diger">
+                            <input name="iskonto" type="radio" value="25"/> %25</label>
+                        <label class="btn mt-2 adetbuton lab50 diger">
+                            <input name="iskonto" type="radio" value="50"/> %50</label>
+                        <label class="btn mt-2 adetbuton lab100 diger">
+                            <input name="iskonto" type="radio" value="100"/> %100</label>    
                         <input type="hidden" name="masaid" value="<?php echo $dizi["id"]; ?>" />                                    
                         </div>
                         <!-- iskonto bölüm -->

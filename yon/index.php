@@ -1,6 +1,6 @@
 <?php include_once("fonk/yonfok.php"); 
 $clas= new yonetim;
-$clas->cookcon($db,true);
+//$clas->cookcon($db,true);
 ob_start();
  ?>
 
