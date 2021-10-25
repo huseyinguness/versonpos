@@ -50,28 +50,15 @@ function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue,$Bolum
   }
 function garsonbilgi($db) {
 		
-		$siparisler=benimsorum2($db,"select * from mutfaksiparis where durum=1 order by masaid desc",1);
-		
-				
-
-				
-										
-						
-		
-			
+		$siparisler=benimsorum2($db,"select * from mutfaksiparis where durum=1 order by masaid desc",1);			
 		echo '<table class="table table-bordered table-striped bg-white text-center mt-1 anasayfaTablo p-0" id="bildirimlink">
 		
 		<tbody>
-		<tr class="font-weight-bold">
-		
+		<tr class="font-weight-bold">		
 		<td>MASA</td>
 		<td>ÜRÜN</td>
 		<td>ADET</td>
 		<td>İŞLEM</td>
-		
-		
-		
-		
 		</tr>';
 		
 		while ($geldiler=$siparisler->fetch_assoc()) :

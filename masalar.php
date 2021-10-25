@@ -87,7 +87,8 @@ $("#rezerveformalan").hide();
                             	<div class="col-lg-12 masasagarkaplan ">
                                 		<div class="row">                                        
                                         		<div class="col-lg-12  basliklar ">
-                                        <h5 class="pt-2" ><kbd class="bg-danger"><?php  echo $tema3->bekleyensatir($db); ?></kbd>  MUTFAK SİPARİŞLERİ </h5>
+                                        <h5 class="pt-2" ><kbd class="bg-danger"><?php  echo $tema3->bekleyensatir($db); ?>                                            
+                                        </kbd>  MUTFAK SİPARİŞLERİ </h5>
                                         		</div>                                                
                                                	<div class="col-lg-12" id="bekleyenler">                                        
                                         <!-- MUTAFAĞIN BEKLEYEN ÜRÜNLERİ GELİYOR. -->                                        
