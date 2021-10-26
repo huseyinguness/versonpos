@@ -1,0 +1,62 @@
+﻿	//------KASİYER MODÜLÜ
+		$('#rezerveyapform').hide();
+		$('#rezervekaldirform').hide();
+//------KASİYER MODÜLÜ
+
+
+//*************************************************************
+
+//------KASİYER MODÜLÜ	
+		
+		$('#islemlinkleri a').click(function() { 
+		var sectionId =$(this).attr('sectionId');
+		
+		
+		
+		$.each(["degistir","birlestir","iskonto","parca","rezerveyap","rezervekaldir"], function ( index ,value) { 
+		
+		$('#'+value+'form').hide();
+		
+		
+		
+		});
+		
+		$('#'+sectionId+'form').show();
+		
+	
+	
+	
+	});	
+	//------KASİYER MODÜLÜ
+
+
+//*************************************************************
+
+	//------KASİYER MODÜLÜ
+			$('#rezervekaldirbtn').click(function() {		
+		$.ajax({			
+			type : "POST",
+			url :'islemler.php?islem=rezervekaldir',
+			data :$('#rezervekaldirFormu').serialize(),			
+			success: function(donen_veri){
+			$('#rezervekaldirFormu').trigger("reset");
+				window.location.reload();
+			},			
+		})		
+	});	
+	
+	
+	
+			$('#rezerveetbtn').click(function() {		
+		$.ajax({			
+			type : "POST",
+			url :'islemler.php?islem=rezerveet',
+			data :$('#rezerveyapFormu').serialize(),			
+			success: function(donen_veri){
+			$('#rezerveyapFormu').trigger("reset");
+				window.location.reload();
+			},			
+		})		
+	});	
+		
+		//------KASİYER MODÜLÜ

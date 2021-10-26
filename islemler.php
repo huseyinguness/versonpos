@@ -51,7 +51,7 @@ function formgetir($masaid,$db,$baslik,$durum,$btnvalue,$btnid,$formvalue,$Bolum
 function garsonbilgi($db) {
 		
 		$siparisler=benimsorum2($db,"select * from mutfaksiparis where durum=1 order by masaid desc",1);			
-		echo '<table class="table table-bordered table-striped bg-white text-center mt-1 anasayfaTablo p-0" id="bildirimlink">
+		echo '<table class="table table-bordered table-striped bg-white text-center  anasayfaTablo p-1" id="bildirimlink">
 		
 		<tbody>
 		<tr class="font-weight-bold">		
@@ -283,7 +283,7 @@ case "goster":
 				 benimsorum2($db,"delete from masabakiye where masaid=$id",1);		 
 				  /* MASANIN LOG KAYDI*/											
 					else:					
-					echo '<table class=" table table-bordered table-striped bg-white text-center ">
+					echo '<table class=" table table-bordered table-striped bg-white text-center gostertablo ">
 					<tbody>
 					<tr class="font-weight-bold">
 					<td  class="p-2" >Ürün Adı</td>
@@ -311,12 +311,24 @@ case "goster":
 	                    <a class="btn btn-danger mt-2 text-white" sectionId="'. $gelenson["urunid"].'" sectionId2="'.$masaid.'">
 	                    <i class="fas fa-trash-alt"></i></a></td>				
 						</tr>';						
-						endwhile;						
-						echo '
+						endwhile;	
+
+
+
+
+						 echo'					
+						</tbody></table>';
+						echo'<div class="row">
+						<div class="col-md-12" > 
+						<table class=" table table-bordered table-striped bg-white text-center gostertoplam ">
+					<tbody>
+
+
+
 						<tr class="bg-light text-dark text-center">
 						<td class="font-weight-bold">TOPLAM</td>					
 						<td class="font-weight-bold text-danger">'.$adet.'</td>
-						<td colspan="2" class="font-weight-bold text-danger ">';
+						<td colspan="1" class="font-weight-bold text-danger ">';
 						
 							if ($verilericek->num_rows!=0) :		
 							$masaninBakiyesi=$verilericek->fetch_assoc();
@@ -334,13 +346,11 @@ case "goster":
 							endif;
 						 echo'</td>	
 				   		 <tr class="font-weight-bold">
-						<td  colspan="4" ><a class="btn  btn-danger float-right mt-1 text-white btn-sm" id="tumunusil" sectionId="'.$id.'">Tümünü Sil</a></td>		
-						</tr>					
-						</tbody></table>';
-
-
-
-					
+						<td  colspan="5" >
+						<a class="btn  btn-danger float-right mt-1 text-white btn-sm" id="tumunusil" sectionId="'.$id.'">Tümünü Sil</a></td>		
+						</tr>	
+						</div>							
+						</div>';
 					endif;	 
      break; 
 case "mutfaksip":
@@ -506,8 +516,6 @@ case "garsonbilgigetir":
 		
 		break; // ÇIKIŞ
 case "hazirurunsil":
-		
-		
 		
 		if (!$_POST):		
 		echo "Posttan gelmiyosun";		

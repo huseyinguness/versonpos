@@ -37,12 +37,8 @@ $(document).ready(function() {
 	
 	$('input[name="bolum"]').change(function() {
 	$(".diger").css("color","#fff");
-	$(".diger").css("background-color","#2b66a0");
-	
+	$(".diger").css("background-color","#2b66a0");	
 	var deger = $('input[name="bolum"]:checked').val();	
-	
-	
-	
 	$(".r"+deger).css("background-color","#ffde00");
 	
     switch ($(this).val())	
@@ -54,14 +50,11 @@ $(document).ready(function() {
 
      $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"garson"); ?>');
       $("#kriter").val("Garson");
-		
 
 		break;
-
 		case "85":	
 		 $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"kasiyer"); ?>');
  			$("#kriter").val("Kasiyer");
-
 			break;
 		case "90":
 		 $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"mutfak"); ?>');
@@ -74,16 +67,10 @@ $(document).ready(function() {
 	</script>
 </head>
 <body style="background-color:#000;">
-<div class="container text-center"><div class="row mx-auto">
-         
-
+<div class="container text-center"><div class="row mx-auto"> 
         <div class="col-md-6 girisiskelet  mx-auto mt-3 text-center m-" style="background-color:#d3e9ff;">
-
         	<div class="row border border-bottom" style="background-color: #2b2c3d; color: #fff;">
-
-                        <div class="col-md-12">                       
-                        
-                        
+                        <div class="col-md-12">                          
                          <?php 
 		@$buton=$_POST["buton"];
 		if (!$buton) :			
@@ -95,8 +82,7 @@ $(document).ready(function() {
         	</div>
         <div class="col-md-12">       	
         	<input type="text" name="sifre" class="form-control mt-2" required="required" placeholder="Şifreniz" id="numarator4"/>
-        	<input type="hidden" name="SorguTablo" value="Garson" id="kriter"/>  
-       </div> 
+        	<input type="hidden" name="SorguTablo" value="Garson" id="kriter"/></div> 
 
   <div class="col-md-12">
   	<input type="submit" name="buton" class="btn btn-info mt-2" value="İÇERİ GİR" girisbuton /><br><br>
@@ -124,39 +110,13 @@ $(document).ready(function() {
 <div class="row">
                         
                         <div class="col-md-12">                        
-                        	<div class="row text-center">
-                            	<div class="col-md-12 border-bottom">
-                            		<h3 id="yazi">Giriş Bölümleri</h3>	</div>
-
-                            		 
-
-                            		<div class="col-md-3 mx-auto text-center">
-                                 	<label class="btn m-1 btn-block diger r1" id="girisButon">
-                                 		<input name="bolum" type="radio" value="1"/>SALON</label></div>                               
-                            
-                            <div class="col-md-3 mx-auto text-center">
-                            	<label class="btn m-1 btn-block diger r2" id="girisButon">
-                            		<input name="bolum" type="radio" value="2"/>BAHÇE</label></div>  
-
-                            <div class="col-md-3 mx-auto text-center">
-                            	<label class="btn m-1 btn-block diger r3" id="girisButon">
-                            		<input name="bolum" type="radio" value="3"/>BALKON</label></div>
-
-                                 <div class="col-md-3 mx-auto text-center">
-                                 	<label class="btn m-1 btn-block diger r4" id="girisButon">
-                                 		<input name="bolum" type="radio" value="4" />TERAS</label></div> 
-                            
-                         <div class="col-md-6 p-4">
-                         	<label class="btn m-1 btn-block diger r85" id="girisButon">
-                         	<input name="dbolum" type="radio" value="85"/>KASİYER</label> </div>
-
-                          <div class="col-md-6 p-4"> 
-                          	<label class="btn m-1 btn-block diger r90" id="girisButon">
-                          	<input name="dbolum" type="radio" value="90"/>MUTFAK</label></div>
-<!--<?php $tema3->BolumleriGetir($db); ?>--> 
-                          					
-                            
-                             </div>
+                        	<div class="row text-center">                            
+                            	<div class="col-md-12 border-bottom p-2"><h3 id="yazi">GİRİŞ BÖLÜMÜ</h3>
+                            	</div>
+                                <?php $tema3->BolumleriGetir($db); ?>                            
+                         <div class="col-md-6 p-2"><label class="btn m-1 btn-block diger r85" id="girisButon"><input name="bolum" type="radio" value="85"  />KASİYER</label> </div>
+                          <div class="col-md-6 p-2"> <label class="btn m-1 btn-block diger r90" id="girisButon"><input name="bolum" type="radio" value="90"  />MUTFAK</label></div>                            
+                             </div>   
                         
                       </div>
                   </div>

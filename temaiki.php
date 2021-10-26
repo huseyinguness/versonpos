@@ -18,9 +18,8 @@ private function genelsorgu($dv, $sorgu) {
         $sorgum->execute();
         return $sorguson = $sorgum->get_result();
     }
-    // genel sorgu
-	
-	  function benimsorgum2($vt,$sorgu,$tercih) {
+    // genel sorgu	
+function benimsorgum2($vt,$sorgu,$tercih) {
         $a=$sorgu;
         $b=$vt->prepare($a);
         $b->execute();
@@ -29,26 +28,22 @@ private function genelsorgu($dv, $sorgu) {
         endif;
 
     }
-
-    function sifrele($veri) {
+function sifrele($veri) {
 
         return base64_encode(gzdeflate(gzcompress(serialize($veri))));
     }
-
-    function coz($veri) {
+function coz($veri) {
 
         return unserialize(gzuncompress(gzinflate(base64_decode($veri))));
     }
 // şifreleme
-
-    private function uyari($tip, $metin, $sayfa) {
+private function uyari($tip, $metin, $sayfa) {
 
         echo '<div class="alert alert-' . $tip . ' mt-5">' . $metin . '</div>';
         header("Location:" . $sayfa);
     }
 // uyarı
-
-    function tas2linkkontrol($vt) {
+function tas2linkkontrol($vt) {
 
         $id = $this->coz($_COOKIE["id"]);
 
@@ -63,8 +58,7 @@ private function genelsorgu($dv, $sorgu) {
         endif;
     }
 // tasarım 2 link  kontrol
-
-    function defmasayon($vt) {
+function defmasayon($vt) {
 
         $so = $this->genelsorgu($vt, "select * from masalar order by id desc limit 5");
 
@@ -115,7 +109,6 @@ function defurunyon($vt, $tercih) {
         
         echo '</tbody></table>';
     }
-
 //default ürün listele
 function dakikakontrolet($saat, $dakika) {
 
@@ -225,7 +218,6 @@ function temaikiurungrup($db) {
             echo '<a class="btn  mt-1 pt-2  text-center" sectionId="' . $son["id"] . '" style="margin:2px; background-color:#193d49; min-height:40px; min-width:80px; color:#58d0f8;">' . $son["ad"] . '</a>';
         endwhile;
     }
-
 // tema2 grup
 function mutfakdakika($saat, $dakika) {
 
@@ -292,14 +284,11 @@ function mutfakbilgi($db) {
 
         endwhile;
     }
-
-    function bekleyensatir($db) {
+function bekleyensatir($db) {
 
         return $this->genelsorgu($db, "select * from mutfaksiparis where durum=1")->num_rows;
-    }
-
-    
-	function GirisYetkiDurum($db, $tabloTip) {
+    }    
+function GirisYetkiDurum($db, $tabloTip) {
 
         echo'<select name="kulad" class="form-control mt-2">';
 
@@ -313,8 +302,7 @@ function mutfakbilgi($db) {
 
         echo' </select>';
     }
-
-    public function giriskont($veritabani, $kulad, $sifre, $tablo, $aktifBolum) {
+public function giriskont($veritabani, $kulad, $sifre, $tablo, $aktifBolum) {
 
         $sor = $veritabani->prepare("select * from $tablo where ad='$kulad' and sifre='$sifre'");
         $sor->execute();
@@ -337,8 +325,7 @@ function mutfakbilgi($db) {
         endif;
     }
 // giris kontrol
-
-    function AlanKontrol($deger) {
+function AlanKontrol($deger) {
 
         if ($deger == 1) :
 
@@ -358,8 +345,7 @@ function mutfakbilgi($db) {
 
         endif;
     }
-
-    public function cookcon($d, $durum = false, $adres1, $adres2 = false) {
+public function cookcon($d, $durum = false, $adres1, $adres2 = false) {
 
         if (isset($_COOKIE["kul"])) :
             $kulad = $_COOKIE["kul"];
@@ -390,27 +376,7 @@ function mutfakbilgi($db) {
 
         endif;
     }
-
-    function BolumleriGetir($db) {
-
-        echo '<div class="row">';
-        $bolumler = $this->genelsorgu($db, "select * from bolumler");
-        while ($bolumlerson = $bolumler->fetch_assoc()):
-
-            echo '
-		
-		<div class="col-md-3 mx-auto text-center">
-		<label class="btn m-1 p-2 btn-block diger r' . $bolumlerson["id"] . '" id="girisButon">
-		<input name="bolum" type="radio" value="' . $bolumlerson["id"] . '"  />' . $bolumlerson["ad"] . '</label>
-		
-		</div>';
-
-        endwhile;
-
-        echo '</div>';
-    }
-
-    function bolyon($vt) {
+function bolyon($vt) {
 
         $bolumler = $this->genelsorgu($vt, "select * from bolumler");
 
@@ -439,8 +405,7 @@ function mutfakbilgi($db) {
         echo '</tbody></table>';
     }
 // bolüm listele
-
-    function bolsil($vt) {
+function bolsil($vt) {
 
         @$masaid = $_GET["bolid"];
 
@@ -451,11 +416,9 @@ function mutfakbilgi($db) {
         else:
             @$this->uyari("danger", "HATA OLUŞTU", "control.php?islem=bolyon");
 
-        endif;
-    }
+        endif; }
 // bölüm SİL
-
-    function bolguncel($vt) {
+function bolguncel($vt) {
 
         @$buton = $_POST["buton"];
 
@@ -515,8 +478,7 @@ function mutfakbilgi($db) {
         echo '</div></div>';
     }
 // bölüm güncelleme
-
-    function bolekle($vt) {
+function bolekle($vt) {
 
         @$buton = $_POST["buton"];
 
@@ -570,8 +532,7 @@ function mutfakbilgi($db) {
 // bolüm ekleme		
 // ----- MASA YÖNETİM
 // ----- GARSON YÖNETİM KODLARI
-
-    function kasiyeryon($vt) {
+function kasiyeryon($vt) {
 
         $so = $this->genelsorgu($vt, "select * from kasiyer");
 
@@ -598,8 +559,7 @@ function mutfakbilgi($db) {
         echo '</tbody></table>';
     }
 // kasiyer listele
-
-    function kasiyersil($vt) {
+function kasiyersil($vt) {
 
         @$kasiyerid = $_GET["kasiyerid"];
 
@@ -611,8 +571,7 @@ function mutfakbilgi($db) {
         endif;
     }
 // kasiyer SİL
-
-    function kasiyerekle($vt) {
+function kasiyerekle($vt) {
 
 
         echo '<div class="col-md-3  table-light text-center mx-auto mt-5 table-bordered" style="border-radius:10px;">';
@@ -653,8 +612,7 @@ function mutfakbilgi($db) {
         echo '</div>';
     }
 // kasiyer ekleme
-
-    function kasiyerguncel($vt) {
+function kasiyerguncel($vt) {
 
         //  md5 sha gelen veri şifrelenerek şifreli haliyle kayıt edilecek
         // çift şifre koruması yapılacak diyelim. yeni girilen şifreler eşleştirecek
@@ -706,8 +664,7 @@ function mutfakbilgi($db) {
             echo '</div>';
         }
 // kasiyer güncelleme
-
-    function kasiyerper($vt) {
+function kasiyerper($vt) {
 
             @$tercih = $_GET["tar"];
 

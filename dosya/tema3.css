@@ -74,7 +74,7 @@ color:#FFF;
 }
 .masasagarkaplan
 {
-	background-color:#055193;
+	background-color:#09d3e5;
 }
 .basliklar 
 {
@@ -104,13 +104,15 @@ color:#FFF;
 }
 .anasayfaTablo tbody 
 {
-    max-height: 200px;
+    max-height: 620px;
+    min-height: 420px;
     overflow-y: auto;
     overflow-x: hidden;
 }
 #bekleyenler 
 {
-	max-height:160px;	
+	min-height:360px;
+	
 }
 #rezervelistesi 
 {
@@ -160,14 +162,24 @@ table
 {
     border-spacing: 0;
 }
-tbody, thead tr { display: block; }
-tbody 
+tbody, 
+thead tr 
+{ display: block; }
+.gostertoplam tbody
 {
-    height: 500px;
+    height: 120px;
     overflow-y: auto;
     overflow-x: hidden;
 }
-tbody td, thead th 
+
+tbody 
+{
+    height: 380px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+tbody td, 
+thead th 
 {
     width: 170px;
 }
@@ -224,10 +236,10 @@ height:40px;
 .adetbuton 
 {
 background-color:#282525;  
-color:#055e91;	
-min-height: 40px;
-min-width: 40px;
-font-size:15px;
+color:#fff;	
+min-height:75px;
+min-width: 70px;
+font-size:40px;
 }
 .eklebuton 
 {

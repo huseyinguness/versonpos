@@ -92,8 +92,13 @@ $(document).ready(function()
                    <a href="control.php?islem=katyon" id="lk" class="col-md-11">  <i class="fas fa-receipt"></i> <span style="margin-left:10px;">Kategoriler</span></a>
                     <a href="control.php?islem=bolyon" id="lk" class="col-md-11">  <i class="fas fa-receipt"></i> <span style="margin-left:10px;">Bölümler</span></a>
                    <a href="control.php?islem=garsonyon" id="lk" class="col-md-11"> <i class="fas fa-street-view"></i><span style="margin-left:10px;">Garsonlar</span></a>
-                   <a href="control.php?islem=garsonper" id="lk" class="col-md-11"> <i class="fas fa-chart-line"></i><span style="margin-left:10px;">Garson Rapor</span></a>
+                   					 <a href="control.php?islem=kasiyeryon" id="lk" class="col-md-11"> <i class="fas fa-street-view"></i><span style="margin-left:10px;">Kasiyer</span></a>
                    <a href="control.php?islem=raporyon"  id="lk" class="col-md-11"> <i class="fas fa-calculator" ></i> <span style="margin-left:10px;">Raporlar </span></a>
+
+                   <a href="control.php?islem=garsonper" id="lk" class="col-md-11"> <i class="fas fa-chart-line"></i><span style="margin-left:10px;">Garson Rapor</span></a>
+
+                   <a href="control.php?islem=kasiyerper" id="lk" class="col-md-11"> <i class="fas fa-chart-line"></i><span style="margin-left:10px;">Kasiyer Rapor</span></a>
+
                    <a href="control.php?islem=sifdeg" id="lk" class="col-md-11">  <i class="fas fa-sync"></i><span style="margin-left:10px;">Şifre Değiştir</span></a>
                     <a href="control.php?islem=bakim" id="lk" class="col-md-11">  <i class="fas fa-hammer"></i><span style="margin-left:10px;">Bakım</span></a> 
                   <?php  $tema2->tas2linkkontrol($db);?>                
@@ -194,6 +199,22 @@ $(document).ready(function()
 	break;
 	case "garsonper":	
 	$yokclas->garsonper($db);	
+	break;
+	//-----------------------------	
+	case "kasiyeryon":
+	$tema2->kasiyeryon($db);	
+	break;
+	case "kasiyerekle":
+	$tema2->kasiyerekle($db);	
+	break;
+	case "kasiyersil":
+	$tema2->kasiyersil($db);	
+	break;
+	case "kasiyerguncel":
+	$tema2->kasiyerguncel($db);	
+	break;
+	case "kasiyerper":	
+	$tema2->kasiyerper($db);	
 	break;
 	//-----------------------------	
 	case "yonayar":

@@ -2,16 +2,13 @@
 require_once 'baglan.php';
 ob_start();
 class vipTema {
-private function genelsorgu($vt,$sorgu,$tercih) {
-				
-					$a=$sorgu;
-					$b=$vt->prepare($a);
-					$b->execute();
-					if ($tercih==1):
-					return $c=$b->get_result();				
-					endif;
-					
-			} // baba fonksiyon		
+private function genelsorgu($dv, $sorgu) {
+
+        $sorgum = $dv->prepare($sorgu);
+        $sorgum->execute();
+        return $sorguson = $sorgum->get_result();
+    }
+    // genel sorgu// baba fonksiyon		
 function genelsorgu2($vt,$sorgu,$tercih) {
 				
 					$a=$sorgu;
@@ -100,21 +97,23 @@ function BolumAdGetir($db,$deger) {
 
         echo '<div class="col-md-12 bg-info pt-2"><h3>Bölüm Adı : ' . $masason["ad"] . '</h3></div>';
     }
-function BolumleriGetir($db){
+function BolumleriGetir($db) {
 
-	echo '<div class="row">';	
-	
-		$bolumsonuc=$this->prepare($db,"SELECT * FROM `bolumler");
+        echo '<div class="row">';
+        $bolumler = $this->genelsorgu($db, "select * from bolumler");
+        while ($bolumlerson = $bolumler->fetch_assoc()):
 
-		while ($bolumlerson=$bolumsonuc->fetch_assoc()):
+            echo '		
+		<div class="col-md-3 mx-auto text-center">
+		<label class="btn m-1 p-2 btn-block diger r' . $bolumlerson["id"] . '" id="girisButon">
+		<input name="bolum" type="radio" value="' . $bolumlerson["id"] . '"  />' . $bolumlerson["ad"] . '</label>
+		
+		</div>';
 
-			echo '<div class="col-md-3 mx-auto text-center">
-                  <label class="btn m-1 btn-block diger r'.$bolumlerson["id"].'" id="girisButon">
-                  <input name="bolum" type="radio" value="'.$bolumlerson["id"].'"/>'.$bolumlerson["ad"].'</label>
-                  </div>';
-		endwhile;
-		echo '</div>';
-	}
+        endwhile;
+
+        echo '</div>';
+    }
 function vipTemaMasalar($db) 
            {	      	        
 	        // ilgili bölüm adı geliyor

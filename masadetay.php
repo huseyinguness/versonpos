@@ -23,26 +23,9 @@ endif;
 $(document).ready(function() {	
 	var id="<?php echo $masaid; ?>";	
 $("#veri").load("islemler.php?islem=goster&id="+id);
-$("#ButonlarAna").load("islemler.php?islem=butonlar&id="+id);
-	/* ekleme butonu kaldırıldı direkt ekleme yapıldı 
-  $('#btn').click(function() {		
-		$.ajax({			
-			type : "POST",
-			url :'islemler.php?islem=ekle',
-			data :$('#formum').serialize(),			
-			success: function(donen_veri)			{
-			$("#veri").load("islemler.php?islem=goster&id="+id);
-			$('#formum').trigger("reset");	
-			$("#cevap").html(donen_veri).fadeOut(1400);	 
-			},			
-		})		
-	})*/
-$('input[name="iskonto"]').change(function(){
-  $(".diger").css("background-color","#282525");
-  var deger = $('input[name="iskonto"]:checked').val();
-  $(".lab"+deger).css("background-color","#00bf00");
 
-  });
+	
+
 $('input[name="adet"]').change(function()
    {
         $.ajax(
@@ -82,7 +65,7 @@ $('#urunler a').click(function(){
   ?>
   <div class="row   justify-content-center h-100 ">                 
 <!-- orta bölüm -->
-                  <div class="col-md-5" >                
+                  <div class="col-md-8" >                
                   		<div class="row pt-2">
                            	 <form id="formum">
                               <!-- Kategori bölüm -->
@@ -101,26 +84,17 @@ $('#urunler a').click(function(){
                      <div class="row">
 
                       <!-- iskonto bölüm -->
-                        <div class="col-md-5 text-center">
-                        <h4>ÜRÜN İSKONTO</h4><hr/> 
-                        <label class="btn mt-2 adetbuton lab10 diger" >
-                            <input name="iskonto" type="radio" value="10"/> %10</label>
-                        <label class="btn mt-2 adetbuton lab25 diger">
-                            <input name="iskonto" type="radio" value="25"/> %25</label>
-                        <label class="btn mt-2 adetbuton lab50 diger">
-                            <input name="iskonto" type="radio" value="50"/> %50</label>
-                        <label class="btn mt-2 adetbuton lab100 diger">
-                            <input name="iskonto" type="radio" value="100"/> %100</label>    
-                        <input type="hidden" name="masaid" value="<?php echo $dizi["id"]; ?>" />                                    
-                        </div>
+                        
                         <!-- iskonto bölüm -->
 
                         <!-- adet bölüm -->
-                         <div class="col-md-7 border-right text-center">
+                         <div class="col-md-12 border-right text-center">
                          <h4>ÜRÜN ADET</h4><hr />
+                         <input type="hidden" name="masaid" value="<?php echo $dizi["id"]; ?>" />  
                          <?php
-                          for ($i=1; $i<=5; $i++):   
-                          echo '<label class="btn m-2 adetbuton" ><input name="adet" type="radio" value="'.$i.'"  /> '.$i.'</label>'; endfor;
+                          for ($i=1; $i<=10; $i++):   
+                          echo '<label class="btn m-2 adetbuton" >
+                          <input name="adet" type="radio" value="'.$i.'"  /> '.$i.'</label>'; endfor;
                           ?>
                           </div>
                           <!-- adet bölüm -->
@@ -131,19 +105,7 @@ $('#urunler a').click(function(){
                     </div>
 
 <!-- orta buton bölüm -->
-   <div class="col-md-3" >  
-   <div class="row h-100">  
-               
-     <div class="col-md-11 mx-auto bg-white border-danger" id="ButonlarAna" ></div>
-
-
-<div id="pad">
-    
-    </div>
-
-
-     </div>
-   </div> 
+  
 <!-- orta buton bölüm -->
 
 <!-- MASA ADI EKLENEN bölüm -->

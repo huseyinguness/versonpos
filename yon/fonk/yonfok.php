@@ -964,7 +964,7 @@ function ciktiicinsorgu($db,$sorgu)
         $so=$this->genelsorgu($db,"select * from garson");
 
        echo ' <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Garson Yönetimi <a href="control.php?islem=garsonekle" title=""> <input name="buton" type="submit" class="btn btn-success" value=" + Yeni garson"></a></h3> </div>
-       <table class="table text-center table-striped table-bordered mx-auto col-md-10 mt-4">
+       <table class="table text-center table-striped table-bordered mx-auto col-md-10 mt-4" style="border-radius:10px;">
                     <thead>
                         <th scope="col"> Garson No </th>                        
                         <th scope="col"> Garson Adı </th> 
@@ -1011,7 +1011,7 @@ function ciktiicinsorgu($db,$sorgu)
 
         echo '
        <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Garson Yönetimi - Güncelleme </h3> </div>
-        <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
+        <div class="col-md-5 text-center mx-auto mt-5 table-bordered" style="border-radius:10px;">';
 
         if ($buton) :
 
@@ -1053,7 +1053,7 @@ function ciktiicinsorgu($db,$sorgu)
         @$buton=$_POST["buton"];
          echo '
        <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Garson Yönetimi - Ekleme </h3> </div>
-        <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
+        <div class="col-md-4 text-center mx-auto mt-4 table-bordered" style="border-radius:10px;">';
 
         if ($buton) :
 
@@ -1750,7 +1750,7 @@ function ciktiicinsorgu($db,$sorgu)
 
         echo '
        <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Ayar Yönetimi - Güncelleme </h3> </div>
-        <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
+        <div class="col-md-5 text-center mx-auto mt-5 table-bordered" style="border-radius:10px;">';
 
         if ($buton) :
 
@@ -1804,7 +1804,7 @@ function ciktiicinsorgu($db,$sorgu)
         @$buton=$_POST["buton"];
          echo '
        <div class="col-md-12 text-left mr-auto mt-4" style="background-color: #5555 ;"> <h3> || Ayar Yönetimi - Ekleme </h3> </div>
-        <div class="col-md-5 text-center mx-auto mt-5 table-bordered">';
+        <div class="col-md-5 text-center mx-auto mt-5 table-bordered" style="border-radius:10px;">';
 
         if ($buton) :
 
@@ -1819,13 +1819,13 @@ function ciktiicinsorgu($db,$sorgu)
              
              if ($kulad=="" && $adsoyad=="" && $durum=="" && $yetki=="" ) :
 
-                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=yoneticiayar");
+                @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=yonayar");
 
             else :
 
                 @$this->genelsorgu($db,"insert into yonetim (kulad,adsoyad,sifre,durum,yetki) values ('$kulad','$adsoyad','$yonsifre',$durum,$yetki)");
 
-                @$this->uyari("success","Yönetici Eklendi !!","control.php?islem=yoneticiayar");  
+                @$this->uyari("success","Yönetici Eklendi !!","control.php?islem=yonayar");  
 
 
             endif;          
@@ -1840,8 +1840,23 @@ function ciktiicinsorgu($db,$sorgu)
                         <div class="col-md-12 table-light"><input type="text" name="yonkulad" class="form-control m-2" placeholder="Kulanıcı Adı"></div>
                         <div class="col-md-12 table-light"><input type="text" name="yonad" class="form-control m-2" placeholder="Adı Soyadı"></div>
                          <div class="col-md-12 table-light"><input type="text" name="yonsifre" class="form-control m-2" placeholder="Şifre"></div>
-                        <div class="col-md-12 table-light"><input type="text" name="yondurum" class="form-control m-2" placeholder="Durum = Aktif-1 Pasif- 0"></div>
-                        <div class="col-md-12 table-light"><input type="text" name="yonyetki" class="form-control m-2" placeholder="Yetki"></div>
+                        <div class="col-md-12 table-light">
+                        <select name="yondurum" class="form-control m-2">
+                            <option value="1">Aktif</option>
+                            <option value="0">Pasif</option>                            
+                        </select>
+                         </div>
+
+                         <div class="col-md-12 table-light">
+                        <select name="yonyetki" class="form-control m-2">
+                        <option value="0" selected="selected">Kullanıcı</option>  
+                            <option value="1">Yonetici</option>
+                                                      
+                        </select> 
+                         </div>
+
+
+
                     
                         <div class="col-md-12 table-light"><input name="buton" type="submit" class="btn btn-success" value="Kaydet"></div>
                 </form>';
