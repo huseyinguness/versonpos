@@ -1,4 +1,6 @@
-<?php session_start(); include("../fonksiyon/fonksiyon.php"); $masam = new sistem;
+<?php session_start(); 
+include("../fonksiyon/tema3fonk.php"); 
+$masam = new vipTema;
 @$masaid=$_GET["masaid"];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -54,7 +56,7 @@ $dizi["ad"];
 					$id=htmlspecialchars($_GET["masaid"]);
  
  					$a="select * from anliksiparis where masaid=$id";
-					$d=$masam->benimsorum2($db,$a,1);
+					$d=$masam->genelsorgu2($db,$a,1);
 					
 					
 					if ($d->num_rows==0) :					

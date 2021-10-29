@@ -95,7 +95,7 @@ function BolumAdGetir($db,$deger) {
         $sonuc = $this->genelsorgu($db, "select * from bolumler where id=" . $deger, 1);
         $masason = $sonuc->fetch_assoc();
 
-        echo '<div class="col-md-12 bg-info pt-2"><h3>Bölüm Adı : ' . $masason["ad"] . '</h3></div>';
+        echo ' <div class="col-md-12 bg-white pt-2"><h3><a href="masalar.php"><img style="width: 30px; height: 30px" src="img/5.ico" alt="verson logo"></a>Verson Pos - Mevcut alan  : ' . $masason["ad"] . '</h3></div>';
     }
 function BolumleriGetir($db) {
 

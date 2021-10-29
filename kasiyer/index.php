@@ -1,76 +1,33 @@
 <?php 
-include_once("../fonksiyon/fonksiyon.php"); 
-include_once("../yon/fonk/temaiki.php"); 
-$sistem = new sistem;
-$tema2 = new temadestek;
+
 
 // Kasiyet modülü için özel sınıf oluşturduk.
 include_once("fonksiyon/kasiyerfonksiyon.php"); 
 $kasiyer = new kasiyer;
-
-$tema2->cookcon($db,false);
-
+//$kasiyer->cookcon($db,false);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
-<script src="../dosya/jqu.js"></script>
+<script src="dosya/jqu.js"></script>
 
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-
-
-
-<link rel="stylesheet" href="../dosya/stil.css" >
-<link rel="stylesheet" href="../dosya/kasiyerStil.css" >
-
-<title>Restaurant -KASİYER EKRANI</title>
-
-
-
+<link rel="stylesheet" href="dosya/tema3.css" >
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<title>Restaurant Sipariş Sistemi</title>
 <script>
 $(document).ready(function() {
-	$("#bekleyenler").hide();
-	$("#rezerveformalan").hide();
-	$("#rezervelistesi").hide();
+$("#bekleyenler").load("islemler.php?islem=garsonbilgigetir");
+$("#rezervelistesi").load("islemler.php?islem=rezervelistesi");
+$("#rezerveformalan").hide();	
 	
 	
-	
-	setInterval(function() { 
-	
-	window.location.reload();
-	},60000);
-	
-	$("#ac").click(function() { 
-	$("#bekleyenler").load("islemler.php?islem=garsonbilgigetir");
-	// burada bişe yapacağız
-	$("#bekleyenler").animate({ 	
-		opacity:'show',
-		width:'show'},'fast','linear',function() {
-	});
-	
-	});
-	
-	
-	$("#kapa").click(function() { 
-	// burada bişe yapacağız
-	$("#bekleyenler").animate({ 	
-		opacity:'hide',
-		width:'hide'},'fast','linear',function() {
-	});
-	
-	window.location.reload();
-	
-	
-	});
-	
+	setInterval(function(){window.location.reload();},5000); // süreli sayfa yineleme  
+
 	$("#rezerveformac").click(function() { 
 	$("#rezerveformalan").show();
 	// burada bişe yapacağız
@@ -78,11 +35,8 @@ $(document).ready(function() {
 		opacity:'show',
 		width:'show'},'fast','linear',function() {
 	});
-	
-	
-	$("#rezervelistesi").hide();
-	
-	});
+			
+	});	
 	
 	$("#rezerveformkapa").click(function() { 
 	// burada bişe yapacağız
@@ -90,30 +44,8 @@ $(document).ready(function() {
 		opacity:'hide',
 		width:'hide'},'fast','linear',function() {
 	});
-	
-	$("#rezervelistesi").animate({ 	
-		opacity:'hide',
-		width:'hide'},'fast','linear',function() {
-	});
-	
-	window.location.reload();
-	
-	
-	});
-	
-	$("#rezerveliste").click(function() { 
-	$("#rezervelistesi").load("islemler.php?islem=rezervelistesi");
-	// burada bişe yapacağız
-	$("#rezervelistesi").animate({ 	
-		opacity:'show',
-		width:'show'},'fast','linear',function() {
-	});
-	
-	$("#rezerveformalan").hide();
-	
-	
-	});
-	
+			
+	});	
 	
 		$('#rezervebtn').click(function() {		
 		$.ajax({			
@@ -127,85 +59,152 @@ $(document).ready(function() {
 				
 			},			
 		})		
-	});		
-
-	
-	
+	});			
 	
 });
-
-
-
 </script>
-
-
 </head>
 <body>
+<div class="container-fluid h-100">
+			<div class="row justify-content-center h-100">
+           <!--MASALAR -->                
+                <div class="col-lg-9 arkaplan" >
+                        <div class="col-lg-12 border-bottom bg-white"><h5 class="pt-2 ">
+                            <a href="index.php"><img style="width: 30px; height: 30px" src="../img/5.ico" alt="verson logo"></a>VersonPos - Kasiyer Ekranı</h5></div>
+                            <div class="row arkaplan">                        
+                            <?php  $kasiyer->vipTemaMasalar($db); ?>
+                             </div>
+                                <div class="col-lg-9" >
+                         <a href="index.php"><img style="width: 300px; height: 100px" src="../img/55.png" alt="verson logo"></a></div>
+                </div>                
+                 <!--MASALAR --> 
 
-<div class="container-fluid">
-
-	<div class="row">
-    <div class="col-lg-12 border-bottom bg-white">
-    <h5 class="pt-2 ">KASİYER EKRANI</h5>
-    </div>
-    
-    
-    			<?php $kasiyer->KasiyerMasalar($db); ?>
-    </div>
-
-
-  
-  <!-- ALT BÖLÜM BURADAN İTİBAREN BAŞLIYOR -->
+                <!--SAĞ -->                
+                <div class="col-lg-3 ">                
+                			<div class="row justify-content-center h-100 sagiskelet">
+                            	<div class="col-lg-12 masasagarkaplan ">
+                                		<div class="row">                                        
+                                        		<div class="col-lg-12  basliklar ">
+                                        <h5 class="pt-2" ><kbd class="bg-danger"><?php  echo $kasiyer->bekleyensatir($db); ?>                                            
+                                        </kbd>  MUTFAK SİPARİŞLERİ </h5>
+                                        		</div>                                                
+                                               	<div class="col-lg-12" id="bekleyenler">                                        
+                                        <!-- MUTAFAĞIN BEKLEYEN ÜRÜNLERİ GELİYOR. -->   
 
 
-<div class="row fixed-bottom kasiyerBar">
-
-<div class="col-md-12  border-info font-weight-bold " >
-				<div class="row">
-                
-                         
-               
-                
-               	 <div class="col-md-2   SagcizgiK SolcizgiK pl-5 pt-2" >
-                 
-                 <i class="fas fa-chart-bar mt-2 mb-2  icon3K"></i>
-                 <span class="icon2K">Toplam sipariş <kbd class="bg-danger text-white"><?php $kasiyer->siparistoplam($db); ?></kbd></span></div>
-                 
-                <div class="col-md-2   SagcizgiK SolcizgiK pl-5 pt-2" >
-                 <i class="fas fa-percent mt-2 mb-2  icon3K"></i>
-                 <span class="icon2K">Doluluk oranı <kbd class="bg-danger text-white"><?php $kasiyer->doluluk($db); ?></kbd></span></div>
-                 
-               <div class="col-md-2   SagcizgiK SolcizgiK pl-5 pt-2" >  
-                  <i class="fas fa-utensils mt-2 mb-2  icon3K"></i>
-                 <span class="icon2K">Hesap Bekleyen Masa <kbd class="bg-danger text-white"><?php $kasiyer->masatoplam($db); ?></kbd></span></div>
-                 
-                  <div class="col-md-2   SagcizgiK SolcizgiK pl-5 pt-2" >  
-                  <i class="fas fa-users mt-2 mb-2  icon3K"></i>
-                 <span class="icon2K">Kasiyer : 00</span></div>
-                 
-         
-          
-                
+                                        		</div>
+                                        </div>                                
+                                </div>                                
+                                <div class="col-lg-12 masasagarkaplan">                                
+                                				<div class="row">                                        
+                                        		<div class="col-lg-12  basliklar ">                                        		                                                   
+                                       <i class="fas fa-address-card  ml-1" id="rezerveformac" style="font-size:2em; border-radius:10px;"></i><b>  REZERVASYONLAR </b>
+                                        		</div>                                       
+                                                
+                                                	<div class="col-lg-12" id="rezervelistesi">
+                                        <!-- REZERVASYONLAR GELİYOR. -->
+                                        		</div>                                                 
+                                       		 </div>                                
+                                </div>
+                                
+                                 <div class="col-lg-12 masasagarkaplan"> 
+                                 		<div class="row">                                        
+                                        		<div class="col-lg-12  basliklar ">
+                                        <i class="fas fa-chart-bar  ml-1"style="font-size:2em; border-radius:10px;"></i><b>  İSTATİSTİKLER</b>
+                                        		</div>
+                                       	<div class="col-lg-12  basliklar ">
+                                                        <div class="row istatistikbasliklar" >
+                                                        		<div class="col-lg-5 istatistiksagcizgi">
+                                                                <b>Toplam sipariş</b>
+                                                        		</div>                                                                
+                                                                <div class="col-lg-7 istatistikbasliklar">
+                                                                <b><?php $kasiyer->siparistoplam($db); ?></b>
+                                                        		</div>                                                        
+                                                        </div>                                                                                       
+                                                         <div class="row istatistikbasliklar">
+                                                        		<div class="col-lg-5 istatistiksagcizgi">
+                                                               <b>Toplam Masa</b> 
+                                                        		</div>
+                                                                <div class="col-lg-7 istatistikbasliklar">
+                                                               <b><?php $kasiyer->masatoplam($db); ?></b>
+                                                        		</div>
+                                                        </div>
+                                                        <div class="row istatistikbasliklar">
+                                                        		<div class="col-lg-5 istatistiksagcizgi">
+                                                               <b>Garson</b> 
+                                                        		</div>
+                                                                
+                                                                <div class="col-lg-7 istatistikbasliklar">
+                                                               <b><?php $kasiyer->garsonbak($db); ?></b>
+                                                        		</div>
+                                                        </div>
+                                        		</div>
+                                       		 </div>
+                                
+                                </div>
+       						 </div>
                 
                 </div>
-
- 
-
-
-
+                <!--SAĞ -->                
+                </div>
 </div>
 
-
-
-</div>
-
+  
+   <div class="row " id="rezerveformalan" >    
+    <form id="rezerveform">        
+         <div class="row mx-auto text-center">      
          
-
-
-
-
-
-</div>
-
+         		<div class="col-md-12 font-weight-bold p-1 text-white">
+                    <font id="rezerveformkapa" class="float-left text-danger pl-2 pointer-event"> 
+                        <b><i class="fas fa-angle-double-right text-info"></i></b> </font >Masa Ad</div>
+        		 <div class="col-md-12 text-white"><select name="masaid" class="form-control mt-2">
+                  <option value="0">Masa Seç</option>
+                  <?php				  
+				  $b=$kasiyer->kasiyersorgum($db,"select * from masalar where durum=0 and rezervedurum=0",1);				  
+				  while ($masalar=$b->fetch_assoc()) :				  
+				  echo '<option value="'.$masalar["id"].'">'.$masalar["ad"].'</option>';				  
+				  endwhile;				  
+				  ?>              
+                </select></div>         
+        		 <div class="col-md-12 font-weight-bold p-1 text-white">Kişi Adı
+        		 </div>         
+                <div class="col-md-12">
+                <input name="kisi" type="text" class="form-control  mt-2" />                
+                </div>  
+                 <div class="col-md-12 font-weight-bold p-1 text-white">Saat </div>         
+                  <div class="col-md-12">
+                	<select name="rezervesaat" class="form-control mt-2">
+                  <option value="0">Saat Seç</option>
+                  <option value="00:00">00:00</option>    
+                  <option value="01:00">01:00</option>
+                  <option value="01:00">01:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="13:00">13:00</option>    
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>                  
+                </select>                             
+                </div>
+                <div class="col-md-12">
+               <input type="button" id="rezervebtn" value="REZERVE ET" class="btn btn-info mt-4 mb-2"/>                
+                </div>         
+         </div>          
+         </form>  
+  </div>
 </body>
 </html>

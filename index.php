@@ -41,25 +41,27 @@ $(document).ready(function() {
 	var deger = $('input[name="bolum"]:checked').val();	
 	$(".r"+deger).css("background-color","#ffde00");
 	
-    switch ($(this).val())	
-    {
-		case "1":		
-		case "2":		
-		case "3":		
+   switch ($(this).val()) {
+		
+		case "1":	
+		case "2":
+		case "3":
 		case "4":
-
-     $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"garson"); ?>');
-      $("#kriter").val("Garson");
-
+		case "5":
+		case "6":	
+		
+		$("#SelectBolum").html('<?php $tema3->GirisYetkiDurum($db,"garson"); ?>');
+		$("#kriter").val("Garson");	
+		break;		
+		case "85":
+		$("#SelectBolum").html('<?php $tema3->GirisYetkiDurum($db,"kasiyer"); ?>');
+		$("#kriter").val("Kasiyer");		
 		break;
-		case "85":	
-		 $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"kasiyer"); ?>');
- 			$("#kriter").val("Kasiyer");
-			break;
 		case "90":
-		 $("#selectBolum").html('<?php $tema3->GirisYetkiDurum($db,"mutfak"); ?>');
-		 $("#kriter").val("Mutfak");
-		break;
+		$("#SelectBolum").html('<?php $tema3->GirisYetkiDurum($db,"mutfak"); ?>');
+		
+		$("#kriter").val("Mutfak");		
+		break;		
 	}	
 
 	});	

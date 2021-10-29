@@ -14,10 +14,7 @@ $tema3 = new vipTema;
 <script>
 $(document).ready(function() 
   {		 
- setInterval(function() 
-   { 	
-	window.location.reload();
-	},5000); // süreli sayfa yineleme
+ setInterval(function(){window.location.reload();},5000); // süreli sayfa yineleme
 		
 			$('#mutfaklink a').click(function() 
 			{			

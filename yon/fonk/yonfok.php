@@ -149,20 +149,27 @@ function ciktiicinsorgu($db,$sorgu)
 
 
      function toplamkasa($db)
-    {
-        echo "00.00";
+    {    
+        $adetler=0;
+        $urun=0;  
+
+         $veriler=$this->genelsorgu($db,"select * from anliksiparis")->fetch_assoc();
+         $adetler +=$veriler["adet"];
+         $urun +=$veriler["urunfiyat"];
+         $toplam = $adetler * $urun;
+         echo $toplam;
+
+       
+          
+          
     }   
        function anlikkasa($db)
     {
 
-              echo "00.00";
-
-         
+       $veriler=$this->genelsorgu($db,"select * from rapor")->fetch_assoc();
+       echo $veriler["adet"] * $veriler["urunfiyat"];     
       
     }
-
-
-
     function doluluk($db)
      {           
      
@@ -367,14 +374,14 @@ function ciktiicinsorgu($db,$sorgu)
     function urunyon ($db,$tercih)
     {
       if ($tercih==1):
- // arama kodları
+   // arama kodları
         $aramabuton=$_POST["aramabuton"];
         $urun=$_POST["urun"];
              if ($aramabuton):
             $so=$this->genelsorgu($db,"select * from urunler where ad LIKE '%$urun%'");
              endif;
         elseif ($tercih==2) :
- // kategori arama kodları
+   // kategori arama kodları
             $arama=$_POST["arama"];
              $katid=$_POST["katid"];
 
@@ -382,7 +389,7 @@ function ciktiicinsorgu($db,$sorgu)
             $so=$this->genelsorgu($db,"select * from urunler where katid=$katid");
              endif;
 
-    elseif ($tercih==3) :
+        elseif ($tercih==3) :
 
     
 
@@ -406,7 +413,6 @@ function ciktiicinsorgu($db,$sorgu)
                   <thead>
                   <tr>
                       <th> 
-
                       <form action="control.php?islem=aramasonuc" method="post">
                       <input type="search" name="urun" class="form-control" placeholder="Aranacak Kelimeyi Yazın"/></th>
                       <th> <input type="submit" name="aramabuton" value="Ara" class="btn btn-success"/>
@@ -533,23 +539,15 @@ function ciktiicinsorgu($db,$sorgu)
                 @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=urunyon");
 
             else :
-
                 if ($stok!=""):
-
                     if ($tercih=="ekle"):
                          $sonstok=$stok + $aktar["stok"];
-
                     elseif ($tercih=="cikart"):
                          $sonstok=$aktar["stok"] - $stok;
-
-                    endif;
-
-                   
+                    endif;                   
                 else :
                     $sonstok=$aktar["stok"];
-
                 endif;
-
                 @$this->genelsorgu($db,"update urunler set ad='$urunad',fiyat=$fiyat,katid=$katid, stok='$sonstok' where id=$urunid");
                 @$this->uyari("success","Ürün Güncellendi!!","control.php?islem=urunyon");  
             endif;
@@ -910,7 +908,7 @@ function ciktiicinsorgu($db,$sorgu)
            
              
 
-             if ($bolumad=="" && $katid=="") :
+             if ($bolumad=="" && $renk=="") :
 
                 @$this->uyari("danger","Bilgiler Boş Olamaz!!","control.php?islem=bolyon");
 
@@ -933,7 +931,7 @@ function ciktiicinsorgu($db,$sorgu)
                         <div class="col-md-12 table-light"> ürün adı : 
 
 
-                     <input type="text" name="ad" value="" class="form-control m-2" placeholder="Bölüm Adı" required="required">
+                     <input type="text" name="bolumad" value="" class="form-control m-2" placeholder="Bölüm Adı" required="required">
                 </div>
                
                        
@@ -1142,7 +1140,7 @@ function ciktiicinsorgu($db,$sorgu)
     }
 
 // Rapor masa ürün ayar  kodları
-    function raporayar ($db,$sorgu)
+function raporayar ($db,$sorgu)
     {
        foreach ($this->tablolar as $ad):
            $this->genelsorgu($db,"Truncate ".$ad); 
@@ -1156,30 +1154,22 @@ function ciktiicinsorgu($db,$sorgu)
         $this->veri3=$this->genelsorgu($db,$sorgu);
     }
 // Rapor masa ürün  kodları
-  function rapor ($db) {        
+function rapor ($db) {      
         
         
-        @$tercih=$_GET["tar"];
-        
-        switch ($tercih) :
-        
+        @$tercih=$_GET["tar"];        
+        switch ($tercih) :        
         case "bugun":
         $this->raporayar($db,"select * from rapor where tarih=CURDATE()");    
         break;
-
-
         case "dun":
         $this->raporayar($db,"select * from rapor where tarih = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
         break;
-
-
         case "hafta":
-
         $this->raporayar($db,"select * from rapor where YEARWEEK(tarih) = YEARWEEK(CURRENT_DATE)");
         break;
         case "ay":  
-        $this->raporayar($db,"select * from rapor where tarih >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)");     
-        
+        $this->raporayar($db,"select * from rapor where tarih >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)");  
         break;
         case "tum":
 
@@ -1899,8 +1889,7 @@ function ciktiicinsorgu($db,$sorgu)
      $db->query("OPTIMIZE TABLE".$tabload);  
 
      }
-
-    function bakim($db)
+function bakim($db)
     {
     @$buton=$_POST["buton"];
 

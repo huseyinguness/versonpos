@@ -118,7 +118,7 @@ $('#urunler a').click(function(){
          <a href="masalar.php" class="btn anasayfabuton" >
          <i class="fas fa-arrow-left" style="font-size:38px;"></i></a>
          </div>
-         <div class="col-md-8 text-center mx-auto p-3"  id="masaad"><?php echo $dizi["ad"]; ?>              
+         <div class="col-md-8 text-center mx-auto p-3"  id="masaad"><?php echo $dizi["ad"]; ?>   
          </div>              
          </div>         
     </div> 
